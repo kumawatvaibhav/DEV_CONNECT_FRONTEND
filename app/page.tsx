@@ -1,9 +1,9 @@
-/**
- * v0 by Vercel.
- * @see https://v0.dev/t/audaeO86uDc
- * Documentation: https://v0.dev/docs#integrating-generated-code-into-your-nextjs-app
- */
 import Link from "next/link";
+const imageStyle = {
+  borderRadius: "15%",
+  border: "1px solid #fff",
+};
+import { useHover } from "react-aria";
 import { Button } from "@/components/ui/button";
 import {
   CardTitle,
@@ -13,32 +13,47 @@ import {
   Card,
 } from "@/components/ui/card";
 import Image from "next/image";
-import laptop from "../app/laptop-2.jpg";
-import icon from "../app/favicon.ico";
+import laptop from "../app/images/laptop-2.jpg";
+import Team from "../app/images/teamwork-7423952.jpg";
+import Collab from "../app/images/collab.png";
+import View from "../app/images/view.png";
+import Listing from "../app/images/Listing.png";
+import icon from "./favicon.ico";
 import div_font from "next/font/google";
 import Head from "next/head";
+import {
+  BarChartIcon,
+  GroupIcon,
+  BriefcaseIcon,
+  StarIcon,
+  Laptop2,
+  Anchor,
+} from "lucide-react";
+import { url } from "inspector";
+import React, {useRef,createRef} from 'react';
+import { Client } from "@clerk/nextjs/server";
 
 export default function Component() {
   return (
     <div className="bg-purple">
       <Head>
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="/home" />
       </Head>
       <header className="h-20 flex items-center bg-white fixed top-0 left-0 w-full z-50">
         <div className="h-25 max-w-2.5rem ml-6">
-          <Image src={icon} alt="Picture of the author" height={50} />
+          <Image src={icon} alt="Icon" height={50} />
         </div>
         <h1 className="text font-san sarif font-bold  ml-4">DEV-CONNECT</h1>
         <nav className="flex flex-grow justify-end">
           <div className="flex justify-center">
-            <Link className="text-sm font-medium mr-5" href="#services">
-              Services
+            <Link className="text-sm font-medium mr-5" href="/">
+              HOME
             </Link>
-            <Link className="text-sm font-medium mr-5" href="#about">
-              About
+            <Link className="text-sm font-medium mr-5" href="services">
+              PROJECTS
             </Link>
-            <Link className="text-sm font-medium mr-10" href="#contact">
-              Contact
+            <Link className="text-sm font-medium mr-10" href="DEV">
+              DEVELOPERS
             </Link>
           </div>
         </nav>
@@ -66,40 +81,98 @@ export default function Component() {
             </div>
           </div>
         </section>
+        <section className="container mx-auto px-4 py-10">
+          <div className="grid grid-cols-4 gap-8">
+            <Card className="bg-gray-100 p-6 text-center">
+              <BarChartIcon className="text-gray-500 mb-2" />
+              <h3 className="text-lg font-semibold">Total Projects Listed</h3>
+              <p className="text-3xl font-bold">0</p>
+              <p className="text-gray-600">Find the right project for you</p>
+            </Card>
+            <Card className="bg-gray-100 p-6 text-center">
+              <GroupIcon className="text-gray-500 mb-2" />
+              <h3 className="text-lg font-semibold">Developers Available</h3>
+              <p className="text-3xl font-bold">3</p>
+              <p className="text-gray-600">Discover skilled developers</p>
+            </Card>
+            <Card className="bg-gray-100 p-6 text-center">
+              <BriefcaseIcon className="text-gray-500 mb-2" />
+              <h3 className="text-lg font-semibold">Projects Completed</h3>
+              <p className="text-3xl font-bold">0</p>
+              <p className="text-gray-600">Create and collaborate</p>
+            </Card>
+            <Card className="bg-gray-100 p-6 text-center">
+              <StarIcon className="text-gray-500 mb-2" />
+              <h3 className="text-lg font-semibold">Community Reviews</h3>
+              <p className="text-3xl font-bold">0</p>
+              <p className="text-gray-600">Real feedback from our users</p>
+            </Card>
+          </div>
+        </section>
         <section className="p-8">
-          <div className="max-w-6xl mx-auto">
+          <div id="Card" className="max-w-6xl mx-auto">
             <h3 className="text-2xl font-bold mb-6">Services we provide</h3>
             <div className="grid grid-cols-3 gap-4">
-              <Card className="w-full bg-puple">
+              <Card className="text-center w-full bg-purple hover:shadow-lg cursor-pointer">
+                <Image
+                  className="mx-auto mt-8 text-center"
+                  style={imageStyle}
+                  src={Listing}
+                  alt="Picture of the author"
+                />
                 <CardHeader>
                   <CardTitle>Project Listing</CardTitle>
                 </CardHeader>
                 <CardContent>
                   <CardDescription>
-                    A platform that allows developers to showcase their projects
-                    to like-minded individuals and potential collaborators.
+                    Our project listing service allows engineers to list their
+                    projects on our website and share them with other engineers
+                    globally. It's a great way to gain visibility and attract
+                    developers to your project. You can easily manage your
+                    project, receive requests, and invite developers to join
+                    your team.
                   </CardDescription>
                 </CardContent>
               </Card>
-              <Card className="w-full">
+
+              <Card className="text-center w-full bg-purple hover:shadow-lg cursor-pointer">
+                <Image
+                  className="mx-auto mt-8 text-center"
+                  style={imageStyle}
+                  src={View}
+                  alt="Picture of the author"
+                />
+                <CardHeader>
+                  <CardTitle>Developer Search</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <CardDescription>
+                    Our developer search service lets you search for developers
+                    based on specific skills, location, and experience. You can
+                    browse through developer profiles and send a request to join
+                    your project or invite them to work with you on other
+                    projects.
+                  </CardDescription>
+                </CardContent>
+              </Card>
+
+              <Card className="text-center w-full bg-purple hover:shadow-lg cursor-pointer">
+                <Image
+                  className="mx-auto mt-8 text-center"
+                  style={imageStyle}
+                  src={Collab}
+                  alt="Picture of the author"
+                />
                 <CardHeader>
                   <CardTitle>Collaboration Requests</CardTitle>
                 </CardHeader>
                 <CardContent>
                   <CardDescription>
-                    A request system that allows developers to connect with
-                    other developers, share ideas, and work on projects
-                    together.
-                  </CardDescription>
-                </CardContent>
-              </Card>
-              <Card className="w-full">
-                <CardHeader>
-                  <CardTitle>View Projects</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <CardDescription>
-                   A search system that allows you to search and view other developer's projects and contribute in it 
+                    Our collaboration platform provides a centralized location
+                    for team members to work together seamlessly. You can share
+                    files, communicate in real-time, and manage tasks in one
+                    place. With our platform, you can collaborate with team
+                    members worldwide and work together in real-time.
                   </CardDescription>
                 </CardContent>
               </Card>
@@ -115,38 +188,187 @@ export default function Component() {
               <p className="mb-4">
                 Discover how DEV-CONNECT's innovative approach to developer
                 collaboration transformed the landscape of technical project
-                development and execution.
+                development and execution. Stay updated on new releases and
+                features, guides, and case studies.
               </p>
-              <div className="flex space-x-2">
-                <Button className="bg-blue-600 text-white">
-                  READ CASE STUDY
-                </Button>
-                <ShareIcon className="text-gray-600" />
-                <BookmarkIcon className="text-gray-600" />
-              </div>
+              
+              
             </div>
-            <img
+            <Image
               alt="DEV-CONNECT Case Study"
               className="w-full h-auto"
-              height="240"
-              src="/laptop.jpg"
+              src={Team}
               style={{
-                aspectRatio: "480/240",
+                aspectRatio: "500/350",
                 objectFit: "cover",
               }}
-              width="480"
             />
           </div>
         </section>
       </main>
-      <footer className="bg-gray-200 p-4">
-        <div className="max-w-6xl mx-auto text-center">
-          <p>© 2023 DEV-CONNECT. All rights reserved.</p>
+      <footer className="bg-black text-white p-10">
+        <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8">
+          <div>
+            <h2 className="text-4xl font-bold mb-4">DEV-CONNECT</h2>
+            <div className="flex space-x-4">
+              <FacebookIcon className="text-white" />
+              <TwitterIcon className="text-white" />
+              <YoutubeIcon className="text-white" />
+            </div>
+          </div>
+          <div>
+            <h3 className="font-semibold text-lg mb-3">Services</h3>
+            <ul className="space-y-2">
+              <li>How it works</li>
+              <li>Work Portfolio</li>
+              <li>Collaboration</li>
+            </ul>
+          </div>
+          <div>
+            <h3 className="font-semibold text-lg mb-3">About</h3>
+            <ul className="space-y-2">
+              <li>Our mission</li>
+              <li>Our story</li>
+              <li>Team Members</li>
+              <li>Career</li>
+            </ul>
+          </div>
+          <div>
+            <p className="mb-4">vaibhavkumawat21318@gmail.com</p>
+            <p className="mb-4">Gsfc university</p>
+            <p className="mb-4">+91 7016563416</p>
+          </div>
         </div>
       </footer>
     </div>
   );
 }
+
+function CreditCardIcon(props) {
+  return (
+    <svg
+      {...props}
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <rect width="20" height="14" x="2" y="5" rx="2" />
+      <line x1="2" x2="22" y1="10" y2="10" />
+    </svg>
+  )
+}
+
+
+function FacebookIcon(props) {
+  return (
+    <svg
+      {...props}
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
+    </svg>
+  )
+}
+
+
+function SearchIcon(props) {
+  return (
+    <svg
+      {...props}
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <circle cx="11" cy="11" r="8" />
+      <path d="m21 21-4.3-4.3" />
+    </svg>
+  )
+}
+
+
+function TwitterIcon(props) {
+  return (
+    <svg
+      {...props}
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z" />
+    </svg>
+  )
+}
+
+
+function ViewIcon(props) {
+  return (
+    <svg
+      {...props}
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="M5 12s2.545-5 7-5c4.454 0 7 5 7 5s-2.546 5-7 5c-4.455 0-7-5-7-5z" />
+      <path d="M12 13a1 1 0 1 0 0-2 1 1 0 0 0 0 2z" />
+      <path d="M21 17v2a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-2" />
+      <path d="M21 7V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v2" />
+    </svg>
+  )
+}
+
+
+function YoutubeIcon(props) {
+  return (
+    <svg
+      {...props}
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="M2.5 17a24.12 24.12 0 0 1 0-10 2 2 0 0 1 1.4-1.4 49.56 49.56 0 0 1 16.2 0A2 2 0 0 1 21.5 7a24.12 24.12 0 0 1 0 10 2 2 0 0 1-1.4 1.4 49.55 49.55 0 0 1-16.2 0A2 2 0 0 1 2.5 17" />
+      <path d="m10 15 5-3-5-3z" />
+    </svg>
+  )
+}
+
 
 function BookmarkIcon(props) {
   return (
