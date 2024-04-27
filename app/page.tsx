@@ -30,8 +30,15 @@ import {
   Anchor,
 } from "lucide-react";
 import { url } from "inspector";
-import React, {useRef,createRef} from 'react';
+import React from 'react';
 import { Client } from "@clerk/nextjs/server";
+
+function scrollToCardSection(){
+  const cardsection = document.getElementById("Card");
+  if (cardsection){
+    cardsection.scrollIntoView({behavior: "smooth" , block:"start"});
+  }
+}
 
 export default function Component() {
   return (
@@ -77,35 +84,31 @@ export default function Component() {
               <Image src={laptop} alt="Picture of the author" height={670} />
             </div>
             <div className="flex justify-center">
-              <Button className="text-white">LEARN MORE</Button>
+              <Button className="text-white">
+                LEARN MORE
+              </Button>
             </div>
           </div>
         </section>
-        <section className="container mx-auto px-4 py-10">
-          <div className="grid grid-cols-4 gap-8">
-            <Card className="bg-gray-100 p-6 text-center">
-              <BarChartIcon className="text-gray-500 mb-2" />
-              <h3 className="text-lg font-semibold">Total Projects Listed</h3>
-              <p className="text-3xl font-bold">0</p>
+        <section className="container mx-auto px-2 py-5">
+          <div id="Card"className="grid grid-cols-3 gap-8">
+            <Card className="bg-gray-100 p-6 text-center gap-1">
+              <BarChartIcon className="text-gray-500 mb-1" />
+              <h3 className="text-lg font-semibold mb-2">Total Projects Listed</h3>
+              <p className="text-3xl font-bold mb-1">0</p>
               <p className="text-gray-600">Find the right project for you</p>
             </Card>
             <Card className="bg-gray-100 p-6 text-center">
-              <GroupIcon className="text-gray-500 mb-2" />
-              <h3 className="text-lg font-semibold">Developers Available</h3>
-              <p className="text-3xl font-bold">3</p>
+              <GroupIcon className="text-gray-500 mb-1" />
+              <h3 className="text-lg font-semibold mb-2">Developers Available</h3>
+              <p className="text-3xl font-bold mb-1">3</p>
               <p className="text-gray-600">Discover skilled developers</p>
             </Card>
             <Card className="bg-gray-100 p-6 text-center">
-              <BriefcaseIcon className="text-gray-500 mb-2" />
-              <h3 className="text-lg font-semibold">Projects Completed</h3>
-              <p className="text-3xl font-bold">0</p>
+              <BriefcaseIcon className="text-gray-500 mb-1" />
+              <h3 className="text-lg font-semibold mb-2">Projects Completed</h3>
+              <p className="text-3xl font-bold mb-1">0</p>
               <p className="text-gray-600">Create and collaborate</p>
-            </Card>
-            <Card className="bg-gray-100 p-6 text-center">
-              <StarIcon className="text-gray-500 mb-2" />
-              <h3 className="text-lg font-semibold">Community Reviews</h3>
-              <p className="text-3xl font-bold">0</p>
-              <p className="text-gray-600">Real feedback from our users</p>
             </Card>
           </div>
         </section>
@@ -243,6 +246,14 @@ export default function Component() {
     </div>
   );
 }
+
+// function Button({ className, children, onClick }) {
+//   return (
+//     <button className={className} onClick={onClick}>
+//       {children}
+//     </button>
+//   )
+// }
 
 function CreditCardIcon(props) {
   return (

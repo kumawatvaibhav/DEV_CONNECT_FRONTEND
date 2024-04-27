@@ -39,8 +39,10 @@ import {
     MoreHorizontalIcon,
 } from "lucide-react";
 import { url } from "inspector";
+import { getproject_data } from "@/lib/data_project";
 
-export default function Service() {
+export default function services() {
+  const project_data = getproject_data();
     return (
       <div className="bg-purple">
         <Head>
@@ -109,273 +111,59 @@ export default function Service() {
               </Link>
             </div>
             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-              <Card className="bg-white dark:bg-gray-800 rounded-lg shadow-md relative">
-                <Skeleton className="rounded-lg">
-                  <CardHeader className="flex flex-row items-center gap-1 justify-between gap-4">
-                    <Avatar className="w-8 h-8">
-                      <AvatarImage alt="Avatar" src="./" />
-                      <AvatarFallback>JP</AvatarFallback>
-                    </Avatar>
-                    <div className="grid gap-1">
-                      <CardTitle>Project 1</CardTitle>
-                      <CardDescription>Demo project</CardDescription>
-                    </div>
-                    <div className="flex flex-row gap-6">
-                      <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
-                          <Button size="icon" variant="ghost">
-                            <MoreHorizontalIcon className="w-4 h-4" />
-                          </Button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent align="end" className="absolute right-0 top-full mt-2">
-                          <DropdownMenuItem>View Project</DropdownMenuItem>
-                          <DropdownMenuItem>Join Project</DropdownMenuItem>
-                        </DropdownMenuContent>
-                      </DropdownMenu>
-                    </div>
-                  </CardHeader>
-                  <CardContent className="grid gap-2">
-                    <p className="text-gray-500 dark:text-gray-400 mb-4">
-                      A comprehensive project management tool for teams.
-                    </p>
-                    <div className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
-                      <CalendarIcon className="w-4 h-4" />
-                      <span>Updated 2 days ago</span>
-                    </div>
-                  </CardContent>
-                  <CardFooter>
-                    <div className="flex items-center gap-2">
-                      <Badge variant="secondary">React</Badge>
-                      <Badge variant="secondary">TypeScript</Badge>
-                      <Badge variant="secondary">Tailwind CSS</Badge>
-                    </div>
-                  </CardFooter>
-                </Skeleton>
-              </Card>
-              <Card className="bg-white dark:bg-gray-800 rounded-lg shadow-md">
-                <CardHeader className="flex items-center justify-between">
-                  <div className="flex items-center gap-3">
-                    <Avatar className="w-10 h-10">
-                      <AvatarImage alt="Avatar" src="/placeholder-user.jpg" />
-                      <AvatarFallback>SM</AvatarFallback>
-                    </Avatar>
-                    <div>
-                      <h3 className="text-lg font-semibold">
-                        Ecommerce Platform
-                      </h3>
-                      <p className="text-gray-500 dark:text-gray-400 text-sm">
-                        Sarah Myles
+              {project_data.map((project, index) => (
+                <Card
+                  key={index}
+                  className="bg-white dark:bg-gray-800 rounded-lg shadow-md relative"
+                >
+                  <Skeleton className="rounded-lg">
+                    <CardHeader className="flex flex-row items-center gap-1 justify-between gap-4">
+                      <Avatar className="w-8 h-8">
+                        <AvatarImage alt="Avatar" src="./" />
+                        <AvatarFallback></AvatarFallback>
+                      </Avatar>
+                      <div className="grid gap-1">
+                        <CardTitle>{project.title}</CardTitle>
+                        <CardDescription>{project.d_name}</CardDescription>
+                      </div>
+                      <div className="flex flex-row gap-6">
+                        <DropdownMenu>
+                          <DropdownMenuTrigger asChild>
+                            <Button size="icon" variant="ghost">
+                              <MoreHorizontalIcon className="w-4 h-4" />
+                            </Button>
+                          </DropdownMenuTrigger>
+                          <DropdownMenuContent
+                            align="end"
+                            className="absolute right-0 top-full mt-2"
+                          >
+                            <DropdownMenuItem>View Project</DropdownMenuItem>
+                            <DropdownMenuItem>Join Project</DropdownMenuItem>
+                          </DropdownMenuContent>
+                        </DropdownMenu>
+                      </div>
+                    </CardHeader>
+                    <CardContent className="grid gap-2">
+                      <p className="text-gray-500 dark:text-gray-400 mb-4">
+                        {project.description}
                       </p>
-                    </div>
-                  </div>
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                      <Button size="icon" variant="ghost">
-                        <MoreHorizontalIcon className="w-5 h-5" />
-                      </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
-                      <DropdownMenuItem>View Project</DropdownMenuItem>
-                      <DropdownMenuItem>Join Project</DropdownMenuItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-gray-500 dark:text-gray-400 mb-4">
-                    A modern and scalable ecommerce platform for businesses.
-                  </p>
-                  <div className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
-                    <CalendarIcon className="w-4 h-4" />
-                    <span>Updated 1 week ago</span>
-                  </div>
-                </CardContent>
-                <CardFooter>
-                  <div className="flex items-center gap-2">
-                    <Badge variant="secondary">Next.js</Badge>
-                    <Badge variant="secondary">Prisma</Badge>
-                    <Badge variant="secondary">Stripe</Badge>
-                  </div>
-                </CardFooter>
-              </Card>
-              <Card className="bg-white dark:bg-gray-800 rounded-lg shadow-md">
-                <CardHeader className="flex items-center justify-between">
-                  <div className="flex items-center gap-3">
-                    <Avatar className="w-10 h-10">
-                      <AvatarImage alt="Avatar" src="/placeholder-user.jpg" />
-                      <AvatarFallback>JD</AvatarFallback>
-                    </Avatar>
-                    <div>
-                      <h3 className="text-lg font-semibold">AI Assistant</h3>
-                      <p className="text-gray-500 dark:text-gray-400 text-sm">
-                        John Doe
-                      </p>
-                    </div>
-                  </div>
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                      <Button size="icon" variant="ghost">
-                        <MoreHorizontalIcon className="w-5 h-5" />
-                      </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
-                      <DropdownMenuItem>View Project</DropdownMenuItem>
-                      <DropdownMenuItem>Join Project</DropdownMenuItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-gray-500 dark:text-gray-400 mb-4">
-                    A powerful AI assistant to help you with your daily tasks.
-                  </p>
-                  <div className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
-                    <CalendarIcon className="w-4 h-4" />
-                    <span>Updated 3 days ago</span>
-                  </div>
-                </CardContent>
-                <CardFooter>
-                  <div className="flex items-center gap-2">
-                    <Badge variant="secondary">Python</Badge>
-                    <Badge variant="secondary">TensorFlow</Badge>
-                    <Badge variant="secondary">Hugging Face</Badge>
-                  </div>
-                </CardFooter>
-              </Card>
-              <Card className="bg-white dark:bg-gray-800 rounded-lg shadow-md">
-                <CardHeader className="flex items-center justify-between">
-                  <div className="flex items-center gap-3">
-                    <Avatar className="w-10 h-10">
-                      <AvatarImage alt="Avatar" src="/placeholder-user.jpg" />
-                      <AvatarFallback>EM</AvatarFallback>
-                    </Avatar>
-                    <div>
-                      <h3 className="text-lg font-semibold">
-                        Social Media App
-                      </h3>
-                      <p className="text-gray-500 dark:text-gray-400 text-sm">
-                        Emily Martinez
-                      </p>
-                    </div>
-                  </div>
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                      <Button size="icon" variant="ghost">
-                        <MoreHorizontalIcon className="w-5 h-5" />
-                      </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
-                      <DropdownMenuItem>View Project</DropdownMenuItem>
-                      <DropdownMenuItem>Join Project</DropdownMenuItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-gray-500 dark:text-gray-400 mb-4">
-                    A social media platform for connecting with friends and
-                    family.
-                  </p>
-                  <div className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
-                    <CalendarIcon className="w-4 h-4" />
-                    <span>Updated 2 weeks ago</span>
-                  </div>
-                </CardContent>
-                <CardFooter>
-                  <div className="flex items-center gap-2">
-                    <Badge variant="secondary">React</Badge>
-                    <Badge variant="secondary">Firebase</Badge>
-                    <Badge variant="secondary">Figma</Badge>
-                  </div>
-                </CardFooter>
-              </Card>
-              <Card className="bg-white dark:bg-gray-800 rounded-lg shadow-md">
-                <CardHeader className="flex items-center justify-between">
-                  <div className="flex items-center gap-3">
-                    <Avatar className="w-10 h-10">
-                      <AvatarImage alt="Avatar" src="/placeholder-user.jpg" />
-                      <AvatarFallback>RK</AvatarFallback>
-                    </Avatar>
-                    <div>
-                      <h3 className="text-lg font-semibold">
-                        Productivity App
-                      </h3>
-                      <p className="text-gray-500 dark:text-gray-400 text-sm">
-                        Ryan Kim
-                      </p>
-                    </div>
-                  </div>
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                      <Button size="icon" variant="ghost">
-                        <MoreHorizontalIcon className="w-5 h-5" />
-                      </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
-                      <DropdownMenuItem>View Project</DropdownMenuItem>
-                      <DropdownMenuItem>Join Project</DropdownMenuItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-gray-500 dark:text-gray-400 mb-4">
-                    A comprehensive productivity app to help you stay organized
-                    and focused.
-                  </p>
-                  <div className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
-                    <CalendarIcon className="w-4 h-4" />
-                    <span>Updated 1 month ago</span>
-                  </div>
-                </CardContent>
-                <CardFooter>
-                  <div className="flex items-center gap-2">
-                    <Badge variant="secondary">Flutter</Badge>
-                    <Badge variant="secondary">Hive</Badge>
-                    <Badge variant="secondary">Bloc</Badge>
-                  </div>
-                </CardFooter>
-              </Card>
-              <Card className="bg-white dark:bg-gray-800 rounded-lg shadow-md">
-                <CardHeader className="flex items-center justify-between">
-                  <div className="flex items-center gap-3">
-                    <Avatar className="w-10 h-10">
-                      <AvatarImage alt="Avatar" src="/placeholder-user.jpg" />
-                      <AvatarFallback>LW</AvatarFallback>
-                    </Avatar>
-                    <div>
-                      <h3 className="text-lg font-semibold">Finance Tracker</h3>
-                      <p className="text-gray-500 dark:text-gray-400 text-sm">
-                        Lisa Wang
-                      </p>
-                    </div>
-                  </div>
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                      <Button size="icon" variant="ghost">
-                        <MoreHorizontalIcon className="w-5 h-5" />
-                      </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
-                      <DropdownMenuItem>View Project</DropdownMenuItem>
-                      <DropdownMenuItem>Join Project</DropdownMenuItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-gray-500 dark:text-gray-400 mb-4">
-                    A personal finance tracking app to help you manage your
-                    money better.
-                  </p>
-                  <div className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
-                    <CalendarIcon className="w-4 h-4" />
-                    <span>Updated 2 months ago</span>
-                  </div>
-                </CardContent>
-                <CardFooter>
-                  <div className="flex items-center gap-2">
-                    <Badge variant="secondary">React Native</Badge>
-                    <Badge variant="secondary">Expo</Badge>
-                    <Badge variant="secondary">Plaid</Badge>
-                  </div>
-                </CardFooter>
-              </Card>
+                      <div className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
+                        <CalendarIcon className="w-4 h-4" />
+                        <span>{project.time}</span>
+                      </div>
+                    </CardContent>
+                    <CardFooter>
+                      <div className="flex items-center gap-2">
+                        {project.tech.map((techs, index) => (
+                          <Badge key={index} variant="secondary">
+                            {techs}
+                          </Badge>
+                        ))}
+                      </div>
+                    </CardFooter>
+                  </Skeleton>
+                </Card>
+              ))}
             </div>
           </section>
         </main>

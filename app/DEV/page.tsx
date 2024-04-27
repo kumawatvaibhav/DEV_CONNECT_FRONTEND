@@ -1,10 +1,7 @@
-import Link from "next/link";
 const imageStyle = {
     borderRadius: "15%",
     border: "1px solid #fff",
 };
-import * as Form from ""
-import {Skeleton} from "@nextui-org/skeleton";
 import { useHover } from "react-aria";
 import { Button } from "@/components/ui/button";
 import {
@@ -15,7 +12,6 @@ import {
     Card,
     CardFooter,
 } from "@/components/ui/card";
-
 import { Input } from "@/components/ui/input"
 import {AvatarImage , AvatarFallback , Avatar} from "@/components/ui/avatar"
 import {DropdownMenuTrigger , DropdownMenuItem , DropdownMenuContent , DropdownMenu} from "@/components/ui/dropdown-menu"
@@ -43,8 +39,15 @@ import {
     LocateIcon,
 } from "lucide-react";
 import { url } from "inspector";
+import { NextFetchEvent } from "next/server";
+import axios from "axios";
+import React, { useState, useEffect } from "react"
+import { getuser_data } from "@/lib/data";
+import Link from "next/link";
 
-export default function Service(){
+
+export default function DEV(){
+   const developer_data = getuser_data();
     return (
       <div className="bg-purple">
         <Head>
@@ -118,241 +121,58 @@ export default function Service(){
               </Link>
             </div>
             <div className="grid gap-6 md:grid-cols-3 lg:grid-cols-3">
-              <Card>
-                <CardHeader className="flex flex-row items-center gap-4">
-                  <UserIcon className="w-8 h-8" />
-                  <div className="grid gap-1">
-                    <CardTitle>Arnav shah</CardTitle>
-                    <CardDescription>Full-stack Developer</CardDescription>
-                  </div>
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                      <Button className="ml-auto" size="icon" variant="ghost">
-                        <MoreHorizontalIcon className="w-4 h-4" />
-                        <span className="sr-only">Toggle menu</span>
-                      </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
-                      <DropdownMenuItem>View Profile</DropdownMenuItem>
-                      <DropdownMenuItem>Send Request</DropdownMenuItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
-                </CardHeader>
-                <CardContent className="grid gap-2">
-                  <div className="text-gray-500 dark:text-gray-400 mb-4">
-                    5+ years of experience in web development
-                  </div>
-                  <div className="flex items-center gap-8 text-sm">
-                    <div className="flex items-center gap-1">
-                      <LocateIcon className="w-4 h-4" />
-                      <span className="text-gray-500 dark:text-gray-400">
-                        Delhi
-                      </span>
+              {developer_data.map((developer, index) => (
+                <Card key={index}>
+                  <CardHeader className="flex flex-row items-center gap-4">
+                    <UserIcon className="w-8 h-8" />
+                    <div className="grid gap-1">
+                      <CardTitle>{developer.name}</CardTitle>
+                      <CardDescription>{developer.role}</CardDescription>
                     </div>
-                    <div className="flex items-center gap-1">
-                      <Badge variant="secondary">React</Badge>
-                      <Badge variant="secondary">Node.js</Badge>
-                      <Badge variant="secondary">SQL</Badge>
+                    <DropdownMenu>
+                      <DropdownMenuTrigger asChild>
+                        <Button className="ml-auto" size="icon" variant="ghost">
+                          <MoreHorizontalIcon className="w-4 h-4" />
+                          <span className="sr-only">Toggle menu</span>
+                        </Button>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent align="end">
+                        <DropdownMenuItem>View Profile</DropdownMenuItem>
+                        <DropdownMenuItem>Send Request</DropdownMenuItem>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
+                  </CardHeader>
+                  <CardContent className="grid gap-2">
+                    <section className="h-20">
+                      <div className="text-gray-500 dark:text-gray-400 mb-4">
+                        {developer.experience}
+                      </div>
+                    </section>
+                    <div className="flex items-center gap-8 text-sm">
+                      <div className="flex items-center gap-1">
+                        <LocateIcon className="w-4 h-4" />
+                        <span className="text-gray-500 dark:text-gray-400">
+                          {developer.location}
+                        </span>
+                      </div>
+                      <div className="flex items-center gap-1">
+                        {developer.skills.map((skill, index) => (
+                          <Badge key={index} variant="secondary">
+                            {skill}
+                          </Badge>
+                        ))}
+                      </div>
                     </div>
-                  </div>
-                </CardContent>
-              </Card>
-              
-              <Card>
-                <CardHeader className="flex flex-row items-center gap-4">
-                  <UserIcon className="w-8 h-8" />
-                  <div className="grid gap-1">
-                    <CardTitle>Nandish Mittal</CardTitle>
-                    <CardDescription>Game Developer</CardDescription>
-                  </div>
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                      <Button className="ml-auto" size="icon" variant="ghost">
-                        <MoreHorizontalIcon className="w-4 h-4" />
-                        <span className="sr-only">Toggle menu</span>
-                      </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
-                      <DropdownMenuItem>View Profile</DropdownMenuItem>
-                      <DropdownMenuItem>Send Request</DropdownMenuItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
-                </CardHeader>
-                <CardContent className="grid gap-3">
-                  <div className="text-gray-500 dark:text-gray-400 mb-4">
-                    3+ years of experience in Game Development
-                  </div>
-                  <div className="flex items-center gap-4 text-sm">
-                    <div className="flex items-center gap-2">
-                      <LocateIcon className="w-4 h-4" />
-                      <span className="text-gray-500 dark:text-gray-400">
-                        Chhani
-                      </span>
+                    <div className="flex items-center gap-2 mt-2">
+                      {developer.projects.map((project, index) => (
+                        <Badge key={index} variant="default">
+                          {project}
+                        </Badge>
+                      ))}
                     </div>
-                    <div className="flex items-center gap-1">
-                      <Badge variant="secondary">Unity</Badge>
-                      <Badge variant="secondary">C#</Badge>
-                      <Badge variant="secondary">kuchorbhiaatah</Badge>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-              <Card>
-                <CardHeader className="flex flex-row items-center gap-4">
-                  <UserIcon className="w-8 h-8" />
-                  <div className="grid gap-1">
-                    <CardTitle>Divy Puranik</CardTitle>
-                    <CardDescription>Cyber Security</CardDescription>
-                  </div>
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                      <Button className="ml-auto" size="icon" variant="ghost">
-                        <MoreHorizontalIcon className="w-4 h-4" />
-                        <span className="sr-only">Toggle menu</span>
-                      </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
-                      <DropdownMenuItem>View Profile</DropdownMenuItem>
-                      <DropdownMenuItem>Send Request</DropdownMenuItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
-                </CardHeader>
-                <CardContent className="grid gap-4">
-                  <div className="text-gray-500 dark:text-gray-400 mb-4">
-                    1+ years of experience in Cyber Security
-                  </div>
-                  <div className="flex items-center gap-5 text-sm">
-                    <div className="flex items-center gap-3">
-                      <LocateIcon className="w-4 h-4" />
-                      <span className="text-gray-500 dark:text-gray-400">
-                        Vadodara
-                      </span>
-                    </div>
-                    <div className="flex items-center gap-1">
-                      <Badge variant="secondary">Kali OS</Badge>
-                      <Badge variant="secondary">Parrot OS</Badge>
-                      <Badge variant="secondary">FlipperZero</Badge>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-              <Card>
-                <CardHeader className="flex flex-row items-center gap-4">
-                  <UserIcon className="w-8 h-8" />
-                  <div className="grid gap-1">
-                    <CardTitle>Vaibhav Kumawat</CardTitle>
-                    <CardDescription>Frontend Developer</CardDescription>
-                  </div>
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                      <Button className="ml-auto" size="icon" variant="ghost">
-                        <MoreHorizontalIcon className="w-4 h-4" />
-                        <span className="sr-only">Toggle menu</span>
-                      </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
-                      <DropdownMenuItem>View Profile</DropdownMenuItem>
-                      <DropdownMenuItem>Send Request</DropdownMenuItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
-                </CardHeader>
-                <CardContent className="grid gap-3">
-                  <div className="text-gray-500 dark:text-gray-400 mb-4">
-                    2+ years of experience in frontend development
-                  </div>
-                  <div className="flex items-center gap-4 text-sm">
-                    <div className="flex items-center gap-1">
-                      <LocateIcon className="w-4 h-4" />
-                      <span className="text-gray-500 dark:text-gray-400">
-                        Jaipur
-                      </span>
-                    </div>
-                    <div className="flex items-center gap-1">
-                      <Badge variant="secondary">React</Badge>
-                      <Badge variant="secondary">TypeScript</Badge>
-                      <Badge variant="secondary">Pokemon</Badge>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-              <Card>
-                <CardHeader className="flex flex-row items-center gap-4">
-                  <UserIcon className="w-8 h-8" />
-                  <div className="grid gap-1">
-                    <CardTitle>Ayush</CardTitle>
-                    <CardDescription>Mobile Developer</CardDescription>
-                  </div>
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                      <Button className="ml-auto" size="icon" variant="ghost">
-                        <MoreHorizontalIcon className="w-4 h-4" />
-                        <span className="sr-only">Toggle menu</span>
-                      </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
-                      <DropdownMenuItem>View Profile</DropdownMenuItem>
-                      <DropdownMenuItem>Send Request</DropdownMenuItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
-                </CardHeader>
-                <CardContent className="grid gap-3">
-                  <div className="text-gray-500 dark:text-gray-400 mb-4">
-                    6+ years of experience in mobile development
-                  </div>
-                  <div className="flex items-center gap-4 text-sm">
-                    <div className="flex items-center gap-1">
-                      <LocateIcon className="w-4 h-4" />
-                      <span className="text-gray-500 dark:text-gray-400">
-                        Mumbai
-                      </span>
-                    </div>
-                    <div className="flex items-center gap-1">
-                      <Badge variant="secondary">React Native</Badge>
-                      <Badge variant="secondary">Swift</Badge>
-                      <Badge variant="secondary">Kotlin</Badge>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-              <Card>
-                <CardHeader className="flex flex-row items-center gap-4">
-                  <UserIcon className="w-8 h-8" />
-                  <div className="grid gap-1">
-                    <CardTitle>Rishabh</CardTitle>
-                    <CardDescription>Data Scientist</CardDescription>
-                  </div>
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                      <Button className="ml-auto" size="icon" variant="ghost">
-                        <MoreHorizontalIcon className="w-4 h-4" />
-                        <span className="sr-only">Toggle menu</span>
-                      </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
-                      <DropdownMenuItem>View Profile</DropdownMenuItem>
-                      <DropdownMenuItem>Send Request</DropdownMenuItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
-                </CardHeader>
-                <CardContent className="grid gap-6">
-                  <div className="text-gray-500 dark:text-gray-400 mb-4">
-                    No experience in data science
-                  </div>
-                  <div className="flex items-center gap-4 text-sm">
-                    <div className="flex items-center gap-1">
-                      <LocateIcon className="w-4 h-4" />
-                      <span className="text-gray-500 dark:text-gray-400">
-                        Pune
-                      </span>
-                    </div>
-                    <div className="flex items-center gap-1">
-                      <Badge variant="secondary">Python</Badge>
-                      <Badge variant="secondary">TensorFlow</Badge>
-                      <Badge variant="secondary">SQL</Badge>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
+                  </CardContent>
+                </Card>
+              ))}
             </div>
           </div>
         </main>
