@@ -1,3 +1,6 @@
+
+"use client";
+
 import Link from "next/link";
 const imageStyle = {
     borderRadius: "15%",
@@ -37,173 +40,196 @@ import {
     Laptop2,
     CalendarIcon,
     MoreHorizontalIcon,
+    XIcon,
 } from "lucide-react";
 import { url } from "inspector";
 import { getproject_data } from "@/lib/data_project";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select";
+import * as Popover from "@radix-ui/react-popover";
+import { useState } from "react";
+
+
 
 export default function services() {
   const project_data = getproject_data();
     return (
-      <div className="bg-purple">
-        <Head>
-          <link rel="icon" href="/favicon.ico" />
-        </Head>
-        <header className="h-20 flex items-center bg-white fixed top-0 left-0 w-full z-50">
-          <div className="h-25 max-w-2.5rem ml-6">
-            <Image src={icon} alt="Icon" height={50} />
-          </div>
-          <h1 className="text font-san sarif font-bold  ml-4">DEV-CONNECT</h1>
-          <nav className="flex flex-grow justify-end">
-            <div className="flex justify-center">
-              <Link className="text-sm font-medium mr-5" href="/">
-                HOME
-              </Link>
-              <Link className="text-sm font-medium mr-5" href="services">
-                PROJECTS
-              </Link>
-              <Link className="text-sm font-medium mr-10" href="DEV">
-                DEVELOPERS
-              </Link>
+      <>
+        <div className="bg-purple">
+          <Head>
+            <link rel="icon" href="/favicon.ico" />
+          </Head>
+          <header className="h-20 flex items-center bg-white fixed top-0 left-0 w-full z-50">
+            <div className="h-25 max-w-2.5rem ml-6">
+              <Image src={icon} alt="Icon" height={50} />
             </div>
-          </nav>
-          <div className="flex flex-row gap-2 mr-7">
-            <Button
-              className="rounded-full ml-auto"
-              size="icon"
-              variant="ghost"
-            >
-              <img
-                alt="Avatar"
-                className="rounded-full border"
-                height="32"
-                src="/placeholder-user.jpg"
-                style={{
-                  aspectRatio: "32/32",
-                  objectFit: "cover",
-                }}
-                width="32"
-              />
-              <span className="sr-only">Toggle user menu</span>
-            </Button>
-          </div>
-        </header>
-        <main className="container mx-auto py-8 px-4 md:px-6 mt-20 bg-gray-100">
-          <div className="max-w-6xl w-full mx-auto flex items-center gap-4 mb-10">
-            <form className="flex-1">
-              <Input
-                className="bg-white dark:bg-gray-950"
-                placeholder="Search projects..."
-              />
-              <Button className="sr-only" type="submit">
-                Submit
-              </Button>
-            </form>
-            <Button>Add New</Button>
-          </div>
-          <section className="max-w-6xl w-full mx-auto">
-            <div className="flex items-center justify-between mb-6">
-              <h2 className="text-2xl font-bold">Top Projects</h2>
-              <Link
-                className="text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50"
-                href="#"
-              >
-                View All
-              </Link>
-            </div>
-            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-              {project_data.map((project, index) => (
-                <Card
-                  key={index}
-                  className="bg-white dark:bg-gray-800 rounded-lg shadow-md relative"
+            <h1 className="text font-san sarif font-bold  ml-4">DEV-CONNECT</h1>
+            <nav className="flex flex-grow justify-end">
+              <div className="flex justify-center">
+                <Link className="text-sm font-medium mr-5" href="/">
+                  HOME
+                </Link>
+                <Link className="text-sm font-medium mr-5" href="services">
+                  PROJECTS
+                </Link>
+                <Link className="text-sm font-medium mr-10" href="DEV">
+                  DEVELOPERS
+                </Link>
+              </div>
+            </nav>
+            <div className="flex flex-row gap-2 mr-7">
+              <Link href="Profile">
+                <Button
+                  className="rounded-full ml-auto"
+                  size="icon"
+                  variant="ghost"
                 >
-                  <Skeleton className="rounded-lg">
-                    <CardHeader className="flex flex-row items-center gap-1 justify-between gap-4">
-                      <Avatar className="w-8 h-8">
-                        <AvatarImage alt="Avatar" src="./" />
-                        <AvatarFallback></AvatarFallback>
-                      </Avatar>
-                      <div className="grid gap-1">
-                        <CardTitle>{project.title}</CardTitle>
-                        <CardDescription>{project.d_name}</CardDescription>
-                      </div>
-                      <div className="flex flex-row gap-6">
-                        <DropdownMenu>
-                          <DropdownMenuTrigger asChild>
-                            <Button size="icon" variant="ghost">
-                              <MoreHorizontalIcon className="w-4 h-4" />
-                            </Button>
-                          </DropdownMenuTrigger>
-                          <DropdownMenuContent
-                            align="end"
-                            className="absolute right-0 top-full mt-2"
-                          >
-                            <DropdownMenuItem>View Project</DropdownMenuItem>
-                            <DropdownMenuItem>Join Project</DropdownMenuItem>
-                          </DropdownMenuContent>
-                        </DropdownMenu>
-                      </div>
-                    </CardHeader>
-                    <CardContent className="grid gap-2">
-                      <p className="text-gray-500 dark:text-gray-400 mb-4">
-                        {project.description}
-                      </p>
-                      <div className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
-                        <CalendarIcon className="w-4 h-4" />
-                        <span>{project.time}</span>
-                      </div>
-                    </CardContent>
-                    <CardFooter>
-                      <div className="flex items-center gap-2">
-                        {project.tech.map((techs, index) => (
-                          <Badge key={index} variant="secondary">
-                            {techs}
-                          </Badge>
-                        ))}
-                      </div>
-                    </CardFooter>
-                  </Skeleton>
-                </Card>
-              ))}
+                  <img
+                    alt="Avatar"
+                    className="rounded-full border"
+                    height="32"
+                    src="/placeholder-user.jpg"
+                    style={{
+                      aspectRatio: "32/32",
+                      objectFit: "cover",
+                    }}
+                    width="32"
+                  />
+                  <span className="sr-only">user menu</span>
+                </Button>
+              </Link>
             </div>
-          </section>
-        </main>
-        <footer className="bg-black text-white p-10">
-          <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8">
-            <div>
-              <h2 className="text-4xl font-bold mb-4">DEV-CONNECT</h2>
-              <div className="flex space-x-4">
-                <FacebookIcon className="text-white" />
-                <TwitterIcon className="text-white" />
-                <YoutubeIcon className="text-white" />
+          </header>
+          <main className="container mx-auto py-8 px-4 md:px-6 mt-20 bg-gray-100">
+            <div className="max-w-6xl w-full mx-auto flex items-center gap-4 mb-10">
+              <form className="flex-1">
+                <Input
+                  className="bg-white dark:bg-gray-950"
+                  placeholder="Search projects..."
+                />
+                <Button className="sr-only" type="submit">
+                  Submit
+                </Button>
+              </form>
+              <Link href="services/Create_project">
+                <Button>Add New</Button>
+              </Link>
+            </div>
+            <section className="max-w-6xl w-full mx-auto">
+              <div className="flex items-center justify-between mb-6">
+                <h2 className="text-2xl font-bold">Top Projects</h2>
+                <Link
+                  className="text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50"
+                  href="#"
+                >
+                  View All
+                </Link>
+              </div>
+              <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+                {project_data.map((project, index) => (
+                  <Card
+                    key={index}
+                    className="bg-white dark:bg-gray-800 rounded-lg shadow-md relative"
+                  >
+                    <Skeleton className="rounded-lg">
+                      <CardHeader className="flex flex-row items-center gap-1 justify-between gap-4">
+                        <Avatar className="w-8 h-8">
+                          <AvatarImage
+                            alt="Avatar"
+                            src="/placeholder-user.jpg"
+                          />
+                          <AvatarFallback></AvatarFallback>
+                        </Avatar>
+                        <div className="grid gap-1">
+                          <CardTitle>{project.title}</CardTitle>
+                          <CardDescription>{project.d_name}</CardDescription>
+                        </div>
+                        <div className="flex flex-row gap-6">
+                          <DropdownMenu>
+                            <DropdownMenuTrigger asChild>
+                              <Button size="icon" variant="ghost">
+                                <MoreHorizontalIcon className="w-4 h-4" />
+                              </Button>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent
+                              align="end"
+                              className="absolute right-0 top-full mt-2"
+                            >
+                              <Link
+                                href={{
+                                  pathname: "services/view_project",
+                                  query: { id: project.id },
+                                }}
+                              >
+                                <DropdownMenuItem>
+                                  View Project
+                                </DropdownMenuItem>
+                                <DropdownMenuItem>
+                                  Join Project
+                                </DropdownMenuItem>
+                              </Link>
+                            </DropdownMenuContent>
+                          </DropdownMenu>
+                        </div>
+                      </CardHeader>
+                      <CardContent className="grid gap-2">
+                        <p className="text-gray-500 dark:text-gray-400 mb-4">
+                          {project.description}
+                        </p>
+                        <div className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
+                          <CalendarIcon className="w-4 h-4" />
+                          <span>{project.time}</span>
+                        </div>
+                      </CardContent>
+                      <CardFooter>
+                        <div className="flex items-center gap-2">
+                          {project.tech.map((techs, index) => (
+                            <Badge key={index} variant="secondary">
+                              {techs}
+                            </Badge>
+                          ))}
+                        </div>
+                      </CardFooter>
+                    </Skeleton>
+                  </Card>
+                ))}
+              </div>
+            </section>
+          </main>
+          <footer className="bg-black text-white p-10">
+            <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8">
+              <div>
+                <h2 className="text-4xl font-bold mb-4">DEV-CONNECT</h2>
+                <div className="flex space-x-4">
+                  <FacebookIcon className="text-white" />
+                  <TwitterIcon className="text-white" />
+                  <YoutubeIcon className="text-white" />
+                </div>
+              </div>
+              <div>
+                <h3 className="font-semibold text-lg mb-3">Services</h3>
+                <ul className="space-y-2">
+                  <li>Developer Search</li>
+                  <li>Collaboration</li>
+                </ul>
+              </div>
+              <div>
+                <h3 className="font-semibold text-lg mb-3">About</h3>
+                <ul className="space-y-2">
+                  <li>Our story</li>
+                  <li>Team Members</li>
+                </ul>
+              </div>
+              <div>
+                <p className="mb-4">22BT04059@gsfcuniversity.ac.in</p>
+                <p className="mb-4">Gsfc university</p>
+                <p className="mb-4">+91 7016563416</p>
               </div>
             </div>
-            <div>
-              <h3 className="font-semibold text-lg mb-3">Services</h3>
-              <ul className="space-y-2">
-                <li>How it works</li>
-                <li>Work Portfolio</li>
-                <li>SEO & Backlinks</li>
-                <li>SMM production</li>
-                <li>Collaboration</li>
-              </ul>
-            </div>
-            <div>
-              <h3 className="font-semibold text-lg mb-3">About</h3>
-              <ul className="space-y-2">
-                <li>Our mission</li>
-                <li>Our story</li>
-                <li>Team Members</li>
-                <li>Career</li>
-              </ul>
-            </div>
-            <div>
-              <p className="mb-4">vaibhavkumawat21318@gmail.com</p>
-              <p className="mb-4">Gsfc university</p>
-              <p className="mb-4">+91 7016563416</p>
-            </div>
-          </div>
-        </footer>
-      </div>
+          </footer>
+        </div>
+      </>
     );
 }
 

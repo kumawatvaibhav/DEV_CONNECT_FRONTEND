@@ -1,18 +1,30 @@
+"use client";
+
+import { Input } from "@/components/ui/input"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
-import { CardTitle, CardDescription, CardHeader, CardContent, Card } from "@/components/ui/card"
+import { CardTitle, CardDescription, CardHeader, CardContent, Card, CardFooter } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import Head from "next/head";
 import icon from "../favicon.ico";
 import Image from "next/image";
+import { Avatar, AvatarImage, AvatarFallback } from "@radix-ui/react-avatar";
+import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem, Label } from "@radix-ui/react-dropdown-menu";
+import { PencilIcon, TwitterIcon, GithubIcon, LinkedinIcon, MoreHorizontalIcon, LocateIcon, UserIcon, CalendarIcon } from "lucide-react";
+import { getproject_data } from "@/lib/data_project";
+import { Skeleton } from "@nextui-org/skeleton";
+import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from "@/components/ui/dialog";
+import { Textarea } from "@/components/ui/textarea";
+
 
 export default function Component() {
+  const project_data = getproject_data();
   return (
     <div className="bg-purple">
       <Head>
-          <link rel="icon" href="/home" />
+        <link rel="icon" href="/home" />
       </Head>
-      <header className="h-20 flex items-center bg-white fixed top-0 left-0 w-full z-50">
+      <header className="h-20 flex items-center bg-gray-100 fixed top-0 left-0 w-full z-50">
         <div className="h-25 max-w-2.5rem ml-6">
           <Image src={icon} alt="Icon" height={50} />
         </div>
@@ -47,308 +59,347 @@ export default function Component() {
           </Button>
         </div>
       </header>
-      <main className="flex min-h-[calc(100vh_-_theme(spacing.16))] bg-gray-100/40 flex-1 flex-col gap-4 p-4 md:gap-8 md:p-10 dark:bg-gray-800/40 mt-10">
-        <div className="max-w-6xl w-full mx-auto flex flex-col gap-6">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <Card className="col-span-1 md:col-span-2 relative">
-              <CardHeader className="flex flex-row items-center gap-4">
-                <img
-                  alt="User Avatar"
-                  className="rounded-full"
-                  height="64"
-                  src="/placeholder-user.jpg"
-                  style={{
-                    aspectRatio: "64/64",
-                    objectFit: "cover",
-                  }}
-                  width="64"
-                />
-                <div className="grid gap-1">
-                  <CardTitle>John Doe</CardTitle>
-                  <CardDescription>Full-stack Developer</CardDescription>
-                </div>
-                <Button
-                  className="absolute top-4 right-4"
-                  size="sm"
-                  variant="outline"
-                >
-                  Edit
-                </Button>
-              </CardHeader>
-              <CardContent className="grid gap-4">
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <h3 className="text-sm font-semibold">Email</h3>
-                    <p className="text-sm text-gray-500 dark:text-gray-400">
-                      johndoe@example.com
-                    </p>
-                  </div>
-                  <div>
-                    <h3 className="text-sm font-semibold">Phone</h3>
-                    <p className="text-sm text-gray-500 dark:text-gray-400">
-                      +1 (555) 123-4567
-                    </p>
-                  </div>
-                  <div>
-                    <h3 className="text-sm font-semibold">Location</h3>
-                    <p className="text-sm text-gray-500 dark:text-gray-400">
-                      San Francisco, CA
-                    </p>
-                  </div>
-                  <div>
-                    <h3 className="text-sm font-semibold">GitHub</h3>
-                    <p className="text-sm text-gray-500 dark:text-gray-400">
-                      <Link className="underline" href="#">
-                        johndoe
-                      </Link>
-                    </p>
-                  </div>
-                </div>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div>
-                    <h3 className="text-sm font-semibold">Skills</h3>
-                    <div className="flex items-center gap-2 flex-wrap">
+      <div className="container mx-auto px-4 py-8 md:px-6 md:py-12 lg:px-8 lg:py-16 mt-20">
+        <div className="grid grid-cols-1 gap-8 md:grid-cols-[280px_1fr] lg:gap-12">
+          <div className="flex flex-col items-center space-y-4">
+            <Avatar className="h-24 w-24">
+              <AvatarImage alt="@shadcn" src="/placeholder-user.jpg" />
+              <AvatarFallback>JD</AvatarFallback>
+            </Avatar>
+            <div className="space-y-1 text-center">
+              <div className="flex items-center justify-center gap-2">
+                <h2 className="text-2xl font-bold">ADMIN DEV</h2>
+                <Dialog>
+                  <DialogTrigger asChild>
+                    <Button
+                      className="text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50"
+                      size="icon"
+                      variant="ghost"
+                    >
+                      <PencilIcon className="h-5 w-5" />
+                      <span className="sr-only">Edit profile</span>
+                    </Button>
+                  </DialogTrigger>
+                  <DialogContent className="sm:max-w-[425px]">
+                    <DialogHeader>
+                      <DialogTitle>Edit Profile</DialogTitle>
+                      <DialogDescription>
+                        Make changes to your profile here. Click save when
+                        you're done.
+                      </DialogDescription>
+                    </DialogHeader>
+                    <div className="grid gap-4 py-4">
+                      <div className="grid grid-cols-4 items-center gap-4">
+                        <Label className="text-right">
+                          Name
+                        </Label>
+                        <Input
+                          className="col-span-3"
+                          id="name"
+                          value="John Doe"
+                        />
+                      </div>
+                      <div className="grid grid-cols-4 items-center gap-4">
+                        <Label className="text-right">
+                          Username
+                        </Label>
+                        <Input
+                          className="col-span-3"
+                          id="username"
+                          value="@johndoe"
+                        />
+                      </div>
+                      <div className="grid grid-cols-4 items-center gap-4">
+                        <Label className="text-right">
+                          Bio
+                        </Label>
+                        <Textarea
+                          className="col-span-3 min-h-[100px]"
+                          id="bio"
+                          value=""
+                        />
+                      </div>
+                      <div className="grid grid-cols-4 items-center gap-4">
+                        <Label className="text-right">
+                          Location
+                        </Label>
+                        <Input
+                          className="col-span-3"
+                          id="location"
+                          value="San Francisco, CA"
+                        />
+                      </div>
+                    </div>
+                    <DialogFooter>
+                      <Button type="submit">Save changes</Button>
+                    </DialogFooter>
+                  </DialogContent>
+                </Dialog>
+              </div>
+              <p className="text-sm text-gray-500 dark:text-gray-400">
+                @Admin
+              </p>
+              <p className="text-sm text-gray-500 dark:text-gray-400">
+                Full-stack Developer
+              </p>
+              <p className="text-sm text-gray-500 dark:text-gray-400">
+                Vadodara
+              </p>
+            </div>
+            <div className="flex items-center space-x-4">
+              <Link
+                className="text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50"
+                href="#"
+              >
+                <TwitterIcon className="h-5 w-5" />
+              </Link>
+              <Link
+                className="text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50"
+                href="#"
+              >
+                <GithubIcon className="h-5 w-5" />
+              </Link>
+              <Link
+                className="text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50"
+                href="#"
+              >
+                <LinkedinIcon className="h-5 w-5" />
+              </Link>
+            </div>
+          </div>
+          <div className="space-y-8">
+            <div className="space-y-4">
+              <h3 className="text-xl font-bold">About</h3>
+              <p className="text-gray-500 dark:text-gray-400">
+                I am a passionate full-stack developer with experience in
+                building web applications using modern technologies. I enjoy
+                collaborating with teams to create innovative solutions that
+                solve real-world problems.
+              </p>
+            </div>
+            <div className="space-y-4">
+              <h3 className="text-xl font-bold">Projects</h3>
+              <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+                {project_data.map((project, index) => (
+                  <Card
+                    key={index}
+                    className="bg-white dark:bg-gray-800 rounded-lg shadow-md relative"
+                  >
+                    <Skeleton className="rounded-lg">
+                      <CardHeader className="flex flex-row items-center gap-1 justify-between gap-4">
+                        <Avatar className="w-8 h-8">
+                          <AvatarImage
+                            alt="Avatar"
+                            src="/placeholder-user.jpg"
+                          />
+                          <AvatarFallback></AvatarFallback>
+                        </Avatar>
+                        <div className="grid gap-1">
+                          <CardTitle>{project.title}</CardTitle>
+                          <CardDescription>{project.d_name}</CardDescription>
+                        </div>
+                        <div className="flex flex-row gap-6">
+                          <DropdownMenu>
+                            <DropdownMenuTrigger asChild>
+                              <Button size="icon" variant="ghost">
+                                <MoreHorizontalIcon className="w-4 h-4" />
+                              </Button>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent
+                              align="end"
+                              className="absolute right-0 top-full mt-2"
+                            >
+                              <Link
+                                href={{
+                                  pathname: "services/view_project",
+                                  query: { id: project.id },
+                                }}
+                              >
+                                <DropdownMenuItem>
+                                  View Project
+                                </DropdownMenuItem>
+                                <DropdownMenuItem>
+                                  Join Project
+                                </DropdownMenuItem>
+                              </Link>
+                            </DropdownMenuContent>
+                          </DropdownMenu>
+                        </div>
+                      </CardHeader>
+                      <CardContent className="grid gap-2">
+                        <p className="text-gray-500 dark:text-gray-400 mb-4">
+                          {project.description}
+                        </p>
+                        <div className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
+                          <CalendarIcon className="w-4 h-4" />
+                          <span>{project.time}</span>
+                        </div>
+                      </CardContent>
+                      <CardFooter>
+                        <div className="flex items-center gap-2">
+                          {project.tech.map((techs, index) => (
+                            <Badge key={index} variant="secondary">
+                              {techs}
+                            </Badge>
+                          ))}
+                        </div>
+                      </CardFooter>
+                    </Skeleton>
+                  </Card>
+                ))}
+              </div>
+            </div>
+            <div className="space-y-4">
+              <h3 className="text-xl font-bold">Skills</h3>
+              <div className="flex flex-wrap gap-2">
+                <Badge variant="secondary">JavaScript</Badge>
+                <Badge variant="secondary">React</Badge>
+                <Badge variant="secondary">Node.js</Badge>
+                <Badge variant="secondary">MongoDB</Badge>
+                <Badge variant="secondary">SQL</Badge>
+                <Badge variant="secondary">Git</Badge>
+                <Badge variant="secondary">Docker</Badge>
+                <Badge variant="secondary">AWS</Badge>
+              </div>
+            </div>
+            <div className="space-y-4">
+              <h3 className="text-xl font-bold">Requests</h3>
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3">
+                <Card>
+                  <CardHeader>
+                    <Avatar className="h-12 w-12">
+                      <AvatarImage
+                        alt="@shadcn"
+                        src="/placeholder-avatar.jpg"
+                      />
+                      <AvatarFallback>JD</AvatarFallback>
+                    </Avatar>
+                    <div className="space-y-1">
+                      <h4 className="text-sm font-semibold">Jane Doe</h4>
+                      <p className="text-xs text-gray-500 dark:text-gray-400">
+                        Full-stack Developer
+                      </p>
+                    </div>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="flex items-center space-x-2">
                       <Badge variant="secondary">React</Badge>
                       <Badge variant="secondary">Node.js</Badge>
+                    </div>
+                  </CardContent>
+                  <CardFooter className="flex justify-between">
+                    <div className="flex gap-2">
+                      <Button size="sm">Accept</Button>
+                      <Button size="sm" variant="outline">
+                        Decline
+                      </Button>
+                    </div>
+                    <DropdownMenu>
+                      <DropdownMenuTrigger asChild>
+                        <Button size="icon" variant="ghost">
+                          <MoreHorizontalIcon className="h-5 w-5" />
+                          <span className="sr-only">More options</span>
+                        </Button>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent align="end">
+                        <DropdownMenuItem>View profile</DropdownMenuItem>
+                        <DropdownMenuItem>Block</DropdownMenuItem>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
+                  </CardFooter>
+                </Card>
+                <Card>
+                  <CardHeader>
+                    <Avatar className="h-12 w-12">
+                      <AvatarImage
+                        alt="@shadcn"
+                        src="/placeholder-avatar.jpg"
+                      />
+                      <AvatarFallback>JD</AvatarFallback>
+                    </Avatar>
+                    <div className="space-y-1">
+                      <h4 className="text-sm font-semibold">John Smith</h4>
+                      <p className="text-xs text-gray-500 dark:text-gray-400">
+                        Mobile Developer
+                      </p>
+                    </div>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="flex items-center space-x-2">
+                      <Badge variant="secondary">Swift</Badge>
+                      <Badge variant="secondary">Kotlin</Badge>
+                    </div>
+                  </CardContent>
+                  <CardFooter className="flex justify-between">
+                    <div className="flex gap-2">
+                      <Button size="sm">Accept</Button>
+                      <Button size="sm" variant="outline">
+                        Decline
+                      </Button>
+                    </div>
+                    <DropdownMenu>
+                      <DropdownMenuTrigger asChild>
+                        <Button size="icon" variant="ghost">
+                          <MoreHorizontalIcon className="h-5 w-5" />
+                          <span className="sr-only">More options</span>
+                        </Button>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent align="end">
+                        <DropdownMenuItem>View profile</DropdownMenuItem>
+                        <DropdownMenuItem>Block</DropdownMenuItem>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
+                  </CardFooter>
+                </Card>
+                <Card>
+                  <CardHeader>
+                    <Avatar className="h-12 w-12">
+                      <AvatarImage
+                        alt="@shadcn"
+                        src="/placeholder-avatar.jpg"
+                      />
+                      <AvatarFallback>JD</AvatarFallback>
+                    </Avatar>
+                    <div className="space-y-1">
+                      <h4 className="text-sm font-semibold">Sarah Johnson</h4>
+                      <p className="text-xs text-gray-500 dark:text-gray-400">
+                        Data Scientist
+                      </p>
+                    </div>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="flex items-center space-x-2">
+                      <Badge variant="secondary">Python</Badge>
                       <Badge variant="secondary">SQL</Badge>
+                      <Badge variant="secondary">Pandas</Badge>
                     </div>
-                  </div>
-                  <div>
-                    <h3 className="text-sm font-semibold">Experience</h3>
-                    <p className="text-sm text-gray-500 dark:text-gray-400">
-                      5+ years of experience in web development
-                    </p>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-            <Card>
-              <CardHeader>
-                <CardTitle>Requests</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="grid gap-4">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-2">
-                      <img
-                        alt="User Avatar"
-                        className="rounded-full"
-                        height="40"
-                        src="/placeholder-user.jpg"
-                        style={{
-                          aspectRatio: "40/40",
-                          objectFit: "cover",
-                        }}
-                        width="40"
-                      />
-                      <div>
-                        <p className="text-sm font-medium">Jane Doe</p>
-                        <p className="text-sm text-gray-500 dark:text-gray-400">
-                          UI/UX Designer
-                        </p>
-                      </div>
-                    </div>
+                  </CardContent>
+                  <CardFooter className="flex justify-between">
                     <div className="flex gap-2">
-                      <Button size="sm" variant="outline">
-                        Accept
-                      </Button>
+                      <Button size="sm">Accept</Button>
                       <Button size="sm" variant="outline">
                         Decline
                       </Button>
                     </div>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-2">
-                      <img
-                        alt="User Avatar"
-                        className="rounded-full"
-                        height="40"
-                        src="/placeholder-user.jpg"
-                        style={{
-                          aspectRatio: "40/40",
-                          objectFit: "cover",
-                        }}
-                        width="40"
-                      />
-                      <div>
-                        <p className="text-sm font-medium">Michael Smith</p>
-                        <p className="text-sm text-gray-500 dark:text-gray-400">
-                          Backend Developer
-                        </p>
-                      </div>
-                    </div>
-                    <div className="flex gap-2">
-                      <Button size="sm" variant="outline">
-                        Accept
-                      </Button>
-                      <Button size="sm" variant="outline">
-                        Decline
-                      </Button>
-                    </div>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <Card>
-              <CardHeader>
-                <CardTitle>My Projects</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="grid gap-4">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-2">
-                      <img
-                        alt="Project Thumbnail"
-                        className="rounded"
-                        height="40"
-                        src=""
-                        style={{
-                          aspectRatio: "40/40",
-                          objectFit: "cover",
-                        }}
-                        width="40"
-                      />
-                      <div>
-                        <p className="text-sm font-medium">
-                          E-commerce Website
-                        </p>
-                        <p className="text-sm text-gray-500 dark:text-gray-400">
-                          Ongoing
-                        </p>
-                      </div>
-                    </div>
-                    <div className="flex gap-2">
-                      <Button size="sm" variant="outline">
-                        View
-                      </Button>
-                      <Button size="sm" variant="outline">
-                        Edit
-                      </Button>
-                    </div>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-2">
-                      <img
-                        alt="Project Thumbnail"
-                        className="rounded"
-                        height="40"
-                        src="/placeholder.svg"
-                        style={{
-                          aspectRatio: "40/40",
-                          objectFit: "cover",
-                        }}
-                        width="40"
-                      />
-                      <div>
-                        <p className="text-sm font-medium">
-                          Mobile App Development
-                        </p>
-                        <p className="text-sm text-gray-500 dark:text-gray-400">
-                          Completed
-                        </p>
-                      </div>
-                    </div>
-                    <div className="flex gap-2">
-                      <Button size="sm" variant="outline">
-                        View
-                      </Button>
-                      <Button size="sm" variant="outline">
-                        Edit
-                      </Button>
-                    </div>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-            <Card>
-              <CardHeader>
-                <CardTitle>Recommended Projects</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="grid gap-4">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-2">
-                      <img
-                        alt="Project Thumbnail"
-                        className="rounded"
-                        height="40"
-                        src="/placeholder.svg"
-                        style={{
-                          aspectRatio: "40/40",
-                          objectFit: "cover",
-                        }}
-                        width="40"
-                      />
-                      <div>
-                        <p className="text-sm font-medium">
-                          Data Visualization Dashboard
-                        </p>
-                        <p className="text-sm text-gray-500 dark:text-gray-400">
-                          Recommended
-                        </p>
-                      </div>
-                    </div>
-                    <Button size="sm" variant="outline">
-                      Apply
-                    </Button>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-2">
-                      <img
-                        alt="Project Thumbnail"
-                        className="rounded"
-                        height="40"
-                        src="/placeholder.svg"
-                        style={{
-                          aspectRatio: "40/40",
-                          objectFit: "cover",
-                        }}
-                        width="40"
-                      />
-                      <div>
-                        <p className="text-sm font-medium">
-                          AI-powered Chatbot Application
-                        </p>
-                        <p className="text-sm text-gray-500 dark:text-gray-400">
-                          Recommended
-                        </p>
-                      </div>
-                    </div>
-                    <Button size="sm" variant="outline">
-                      Apply
-                    </Button>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
+                    <DropdownMenu>
+                      <DropdownMenuTrigger asChild>
+                        <Button className="ml-auto" size="icon" variant="ghost">
+                          <MoreHorizontalIcon className="h-5 w-5" />
+                          <span className="sr-only">More options</span>
+                        </Button>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent align="end">
+                        <DropdownMenuItem>View profile</DropdownMenuItem>
+                        <DropdownMenuItem>Block</DropdownMenuItem>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
+                  </CardFooter>
+                </Card>
+              </div>
+            </div>
           </div>
         </div>
-      </main>
+      </div>
     </div>
   );
 }
-
-function FrameIcon(props) {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <line x1="22" x2="2" y1="6" y2="6" />
-      <line x1="22" x2="2" y1="18" y2="18" />
-      <line x1="6" x2="6" y1="2" y2="22" />
-      <line x1="18" x2="18" y1="2" y2="22" />
-    </svg>
-  )
-}
-

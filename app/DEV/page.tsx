@@ -14,7 +14,7 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input"
 import {AvatarImage , AvatarFallback , Avatar} from "@/components/ui/avatar"
-import {DropdownMenuTrigger , DropdownMenuItem , DropdownMenuContent , DropdownMenu} from "@/components/ui/dropdown-menu"
+import {DropdownMenuTrigger , DropdownMenuItem , DropdownMenuContent , DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuLabel, DropdownMenuSeparator} from "@/components/ui/dropdown-menu"
 import {Badge} from "@/components/ui/badge"
 
 import Image from "next/image";
@@ -72,24 +72,26 @@ export default function DEV(){
             </div>
           </nav>
           <div className="flex flex-row gap-2 mr-7">
-            <Button
-              className="rounded-full ml-auto"
-              size="icon"
-              variant="ghost"
-            >
-              <img
-                alt="Avatar"
-                className="rounded-full border"
-                height="32"
-                src="/placeholder-user.jpg"
-                style={{
-                  aspectRatio: "32/32",
-                  objectFit: "cover",
-                }}
-                width="32"
-              />
-              <span className="sr-only">Toggle user menu</span>
-            </Button>
+            <Link href="Profile">
+              <Button
+                className="rounded-full ml-auto"
+                size="icon"
+                variant="ghost"
+              >
+                <img
+                  alt="Avatar"
+                  className="rounded-full border"
+                  height="32"
+                  src="/placeholder-user.jpg"
+                  style={{
+                    aspectRatio: "32/32",
+                    objectFit: "cover",
+                  }}
+                  width="32"
+                />
+                <span className="sr-only">user menu</span>
+              </Button>
+            </Link>
           </div>
         </header>
         <main className="container mx-auto py-8 px-4 md:px-6 mt-20 bg-gray-100">
@@ -105,10 +107,23 @@ export default function DEV(){
                 </Button>
               </form>
               <div className="flex gap-2">
-                <Button variant="outline">
-                  <FilterIcon className="w-4 h-4 mr-2" />
-                  Filter
-                </Button>
+              <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button size="sm" variant="outline">
+                      <FilterIcon className="h-4 w-4 mr-2" />
+                      Filter
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end" className="w-56">
+                    <DropdownMenuLabel>Filter by</DropdownMenuLabel>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuCheckboxItem>AI/ML</DropdownMenuCheckboxItem>
+                    <DropdownMenuCheckboxItem>Full Stack</DropdownMenuCheckboxItem>
+                    <DropdownMenuCheckboxItem>Frontend projects</DropdownMenuCheckboxItem>
+                    <DropdownMenuCheckboxItem>Backend projects</DropdownMenuCheckboxItem>
+                    <DropdownMenuCheckboxItem>Andriod projects</DropdownMenuCheckboxItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
               </div>
             </div>
             <div className="flex items-center justify-between mb-2 mt-1.72">
@@ -189,9 +204,7 @@ export default function DEV(){
             <div>
               <h3 className="font-semibold text-lg mb-3">Services</h3>
               <ul className="space-y-2">
-                <li>How it works</li>
-                <li>Work Portfolio</li>
-                <li>SEO & Backlinks</li>
+              
                 <li>SMM production</li>
                 <li>Collaboration</li>
               </ul>
@@ -200,9 +213,8 @@ export default function DEV(){
               <h3 className="font-semibold text-lg mb-3">About</h3>
               <ul className="space-y-2">
                 <li>Our mission</li>
-                <li>Our story</li>
                 <li>Team Members</li>
-                <li>Career</li>
+               
               </ul>
             </div>
             <div>

@@ -1,6 +1,8 @@
-import * as React from "react"
+import * as React from "react";
 
-import { cn } from "@/lib/utils"
+import { cn } from "@/lib/utils";
+
+import { useRouter } from 'next/router';
 
 const Card = React.forwardRef<
   HTMLDivElement,
@@ -76,4 +78,10 @@ const CardFooter = React.forwardRef<
 ))
 CardFooter.displayName = "CardFooter"
 
-export { Card, CardHeader, CardFooter, CardTitle, CardDescription, CardContent }
+export {Card , CardHeader, CardFooter, CardTitle, CardDescription, CardContent }
+
+export default function Card_click({ onClick }: { onClick: () =>
+  void }) {
+    return <div onClick={onClick}>Card</div>;
+  }
+

@@ -1,3 +1,5 @@
+"use client";
+
 import Link from "next/link";
 const imageStyle = {
   borderRadius: "15%",
@@ -30,17 +32,28 @@ import {
   Anchor,
 } from "lucide-react";
 import { url } from "inspector";
-import React from 'react';
+import React, { useState } from 'react';
 import { Client } from "@clerk/nextjs/server";
+import Card_click from "@/components/ui/card";
 
-function scrollToCardSection(){
-  const cardsection = document.getElementById("Card");
-  if (cardsection){
-    cardsection.scrollIntoView({behavior: "smooth" , block:"start"});
-  }
-}
 
 export default function Component() {
+  const isLoggedIn = false;
+  
+  const [email, setEmail] = useState("");
+
+  const handleEmailChange = (e) => {
+    setEmail(e.target.value);
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // You can implement your email submission logic here
+    console.log("Email submitted:", email);
+    // Clear the email field after submission
+    setEmail("");
+  };
+
   return (
     <div className="bg-purple">
       <Head>
@@ -64,7 +77,34 @@ export default function Component() {
             </Link>
           </div>
         </nav>
-        <Button className="bg-black text-white mr-10">LOGIN</Button>
+        <div id="login">
+          {isLoggedIn ? (
+            <Link href="Profile">
+              <Button
+                className="rounded-full ml-auto"
+                size="icon"
+                variant="ghost"
+              >
+                <img
+                  alt="Avatar"
+                  className="rounded-full border"
+                  height="32"
+                  src="/placeholder-user.jpg"
+                  style={{
+                    aspectRatio: "32/32",
+                    objectFit: "cover",
+                  }}
+                  width="32"
+                />
+                <span className="sr-only">user menu</span>
+              </Button>
+            </Link>
+          ) : (
+            <Link href="Login">
+              <Button className="bg-black text-white mr-10">LOGIN</Button>
+            </Link>
+          )}
+        </div>
       </header>
       <main>
         <section className="bg-gray-100 p-8 flex justify-center">
@@ -84,23 +124,27 @@ export default function Component() {
               <Image src={laptop} alt="Picture of the author" height={670} />
             </div>
             <div className="flex justify-center">
-              <Button className="text-white">
-                LEARN MORE
-              </Button>
+              <Link href="#Card">
+                <Button className="text-white">LEARN MORE</Button>
+              </Link>
             </div>
           </div>
         </section>
         <section className="container mx-auto px-2 py-5">
-          <div id="Card"className="grid grid-cols-3 gap-8">
+          <div className="grid grid-cols-3 gap-8">
             <Card className="bg-gray-100 p-6 text-center gap-1">
               <BarChartIcon className="text-gray-500 mb-1" />
-              <h3 className="text-lg font-semibold mb-2">Total Projects Listed</h3>
+              <h3 className="text-lg font-semibold mb-2">
+                Total Projects Listed
+              </h3>
               <p className="text-3xl font-bold mb-1">0</p>
               <p className="text-gray-600">Find the right project for you</p>
             </Card>
             <Card className="bg-gray-100 p-6 text-center">
               <GroupIcon className="text-gray-500 mb-1" />
-              <h3 className="text-lg font-semibold mb-2">Developers Available</h3>
+              <h3 className="text-lg font-semibold mb-2">
+                Developers Available
+              </h3>
               <p className="text-3xl font-bold mb-1">3</p>
               <p className="text-gray-600">Discover skilled developers</p>
             </Card>
@@ -116,69 +160,76 @@ export default function Component() {
           <div id="Card" className="max-w-6xl mx-auto">
             <h3 className="text-2xl font-bold mb-6">Services we provide</h3>
             <div className="grid grid-cols-3 gap-4">
-              <Card className="text-center w-full bg-purple hover:shadow-lg cursor-pointer">
-                <Image
-                  className="mx-auto mt-8 text-center"
-                  style={imageStyle}
-                  src={Listing}
-                  alt="Picture of the author"
-                />
-                <CardHeader>
-                  <CardTitle>Project Listing</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <CardDescription>
-                    Our project listing service allows engineers to list their
-                    projects on our website and share them with other engineers
-                    globally. It's a great way to gain visibility and attract
-                    developers to your project. You can easily manage your
-                    project, receive requests, and invite developers to join
-                    your team.
-                  </CardDescription>
-                </CardContent>
-              </Card>
+              <Link href="services">
+                <Card className="text-center w-full bg-purple hover:shadow-lg cursor-pointer">
+                  <Image
+                    className="mx-auto mt-8 text-center"
+                    style={imageStyle}
+                    src={Listing}
+                    alt="Picture of the author"
+                  />
+                  <CardHeader>
+                    <CardTitle>Project Listing</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <CardDescription>
+                      Our project listing service allows engineers to list their
+                      projects on our website and share them with other
+                      engineers globally. It's a great way to gain visibility
+                      and attract developers to your project. You can easily
+                      manage your project, receive requests, and invite
+                      developers to join your team.
+                    </CardDescription>
+                  </CardContent>
+                </Card>
+              </Link>
 
-              <Card className="text-center w-full bg-purple hover:shadow-lg cursor-pointer">
-                <Image
-                  className="mx-auto mt-8 text-center"
-                  style={imageStyle}
-                  src={View}
-                  alt="Picture of the author"
-                />
-                <CardHeader>
-                  <CardTitle>Developer Search</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <CardDescription>
-                    Our developer search service lets you search for developers
-                    based on specific skills, location, and experience. You can
-                    browse through developer profiles and send a request to join
-                    your project or invite them to work with you on other
-                    projects.
-                  </CardDescription>
-                </CardContent>
-              </Card>
+              <Link href="DEV">
+                <Card className="text-center w-full bg-purple hover:shadow-lg cursor-pointer">
+                  <Image
+                    className="mx-auto mt-8 text-center"
+                    style={imageStyle}
+                    src={View}
+                    alt="Picture of the author"
+                  />
+                  <CardHeader>
+                    <CardTitle>Developer Search</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <CardDescription>
+                      Our developer search service lets you search for
+                      developers based on specific skills, location, and
+                      experience. You can browse through developer profiles and
+                      send a request to join your project or invite them to work
+                      with you on other projects. Our developer search service
+                      is a to connect
+                    </CardDescription>
+                  </CardContent>
+                </Card>
+              </Link>
 
-              <Card className="text-center w-full bg-purple hover:shadow-lg cursor-pointer">
-                <Image
-                  className="mx-auto mt-8 text-center"
-                  style={imageStyle}
-                  src={Collab}
-                  alt="Picture of the author"
-                />
-                <CardHeader>
-                  <CardTitle>Collaboration Requests</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <CardDescription>
-                    Our collaboration platform provides a centralized location
-                    for team members to work together seamlessly. You can share
-                    files, communicate in real-time, and manage tasks in one
-                    place. With our platform, you can collaborate with team
-                    members worldwide and work together in real-time.
-                  </CardDescription>
-                </CardContent>
-              </Card>
+              <Link href="Profile">
+                <Card className="text-center w-full bg-purple hover:shadow-lg cursor-pointer">
+                  <Image
+                    className="mx-auto mt-8 text-center"
+                    style={imageStyle}
+                    src={Collab}
+                    alt="Picture of the author"
+                  />
+                  <CardHeader>
+                    <CardTitle>Collaboration Requests</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <CardDescription>
+                      Our collaboration platform provides a centralized location
+                      for team members to work together seamlessly. You can
+                      share files, communicate in real-time, and manage tasks in
+                      one place. With our platform, you can collaborate with
+                      team members worldwide and work together in real-time.
+                    </CardDescription>
+                  </CardContent>
+                </Card>
+              </Link>
             </div>
           </div>
         </section>
@@ -194,8 +245,21 @@ export default function Component() {
                 development and execution. Stay updated on new releases and
                 features, guides, and case studies.
               </p>
-              
-              
+              <form onSubmit={handleSubmit} className="flex">
+                <input
+                  type="email"
+                  value={email}
+                  onChange={handleEmailChange}
+                  placeholder="Enter your email"
+                  className="border border-gray-300 rounded-l px-4 py-2 focus:outline-none focus:border-purple-500 flex-grow"
+                />
+                <button
+                  type="submit"
+                  className="bg-black text-white px-4 py-2 rounded-r focus:outline-none focus:bg-black-600"
+                >
+                  Subscribe
+                </button>
+              </form>
             </div>
             <Image
               alt="DEV-CONNECT Case Study"
@@ -220,12 +284,14 @@ export default function Component() {
             </div>
           </div>
           <div>
-            <h3 className="font-semibold text-lg mb-3">Services</h3>
-            <ul className="space-y-2">
-              <li>How it works</li>
-              <li>Work Portfolio</li>
-              <li>Collaboration</li>
-            </ul>
+            <Link href="#Card">
+              <h3 className="font-semibold text-lg mb-3">Services</h3>
+              <ul className="space-y-2">
+                <li>Project Search</li>
+                <li>Collaboration</li>
+                <li>Developer Search</li>
+              </ul>
+            </Link>
           </div>
           <div>
             <h3 className="font-semibold text-lg mb-3">About</h3>
@@ -233,46 +299,17 @@ export default function Component() {
               <li>Our mission</li>
               <li>Our story</li>
               <li>Team Members</li>
-              <li>Career</li>
             </ul>
           </div>
           <div>
-            <p className="mb-4">vaibhavkumawat21318@gmail.com</p>
-            <p className="mb-4">Gsfc university</p>
-            <p className="mb-4">+91 7016563416</p>
+            <p className="mb-2">22BT04059@gsfcuniversity.ac.in</p>
+            <p className="mb-2">Gsfc university</p>
+            <p className="mb-2">+91 6355133537</p>
           </div>
         </div>
       </footer>
     </div>
   );
-}
-
-// function Button({ className, children, onClick }) {
-//   return (
-//     <button className={className} onClick={onClick}>
-//       {children}
-//     </button>
-//   )
-// }
-
-function CreditCardIcon(props) {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <rect width="20" height="14" x="2" y="5" rx="2" />
-      <line x1="2" x2="22" y1="10" y2="10" />
-    </svg>
-  )
 }
 
 
