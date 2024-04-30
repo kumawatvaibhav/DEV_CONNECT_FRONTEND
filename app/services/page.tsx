@@ -54,7 +54,10 @@ import React, { useState, useEffect } from 'react';
 
 export default function services() {
   //const project_data = getproject_data();
-
+    const checkIfUserAlreadyMemberOfProject = (obj) => {
+      console.log(obj?._id, ": ", sessionStorage.getItem("userId"))
+      return obj?._id == sessionStorage.getItem("userId")
+    }
     const options = {
       method: 'GET',
       url: 'http://localhost:3001/api/project',
@@ -63,28 +66,23 @@ export default function services() {
     };
 
     const [entities, setEntities] = useState([]);
-    var responseData = useState([]);
+    // var responseData = useState([]);
 
-    // useEffect(() => {
-    //   axios.get(options.url).then((response) => {
-    //       console.log(response);
-    //       const responseData = response.data;
-    //       setEntities(responseData.entities);
-    //       console.log(response.data);
-    //     })
-    //     .catch((error) => {
-    //       console.error('Error:', error);
-    //     });
-    // }, []);
+    useEffect(() => {
+      if(!entities.length) {
+        axios.get(options.url).then((response) => {
+            console.log(response);
+            const responseData = response.data;
+            setEntities(responseData);
+            console.log(response.data);
+          })
+          .catch((error) => {
+            console.error('Error:', error);
+          });
+      }
+    }, [entities]);
 
-    axios.request(options).then(function (response) {
-      // console.log(response.data);
-      responseData = response.data;
-      console.log(responseData)
-      // setEntities(responseData.entities);
-    }).catch(function (error) {
-      console.error(error);
-    });
+   
     return (
       <>
         <div className="bg-purple">
@@ -158,7 +156,7 @@ export default function services() {
                 </Link>
               </div> */}
               <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-                {responseData.map((project, index) => (
+                {entities?.map?.((project, index) => (
                   <Card
                     key={index}
                     className="bg-white dark:bg-gray-800 rounded-lg shadow-md relative"
@@ -190,15 +188,20 @@ export default function services() {
                               <Link
                                 href={{
                                   pathname: "services/view_project",
-                                  query: { id: project.id },
+                                  query: { id: project._id },
                                 }}
                               >
                                 <DropdownMenuItem>
                                   View Project
                                 </DropdownMenuItem>
-                                <DropdownMenuItem>
-                                  Join Project
-                                </DropdownMenuItem>
+                                { 
+                                  !project?.collaboratorIds?.find?.(checkIfUserAlreadyMemberOfProject) ?  
+                                  (
+                                    <DropdownMenuItem>
+                                      Join Project
+                                    </DropdownMenuItem>
+                                  ) : (<></>)
+                                }
                               </Link>
                             </DropdownMenuContent>
                           </DropdownMenu>

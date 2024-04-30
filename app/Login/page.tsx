@@ -40,7 +40,10 @@ export default function Component() {
       const propName = 'token'; 
       const propertyValue = responseData[propName];
       sessionStorage.setItem('jwtToken', propertyValue);
+      const decodedToken = atob(propertyValue?.split?.('.')?.[1]);
+      sessionStorage.setItem("userId", JSON.parse(decodedToken)?.user?._id);
       console.log(response.data);
+      window.location.href = '/';
     }).catch(function (error) {
       alert("Something went wrong")
       console.error(error);

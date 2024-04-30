@@ -15,26 +15,35 @@ import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import Image from "next/image";
 import icon from "../../favicon.ico";
+import axios from "axios";
 
 export default function ProjectDetailPage() {
   //const searchParams = new URLSearchParams("http://localhost:3000/services/view_project?id=1")
   //const router = useRouter();
   const searchParams = useSearchParams();
-  const proj_id  = searchParams.get('id');
-  const [project, setProject] = useState([{}]);
-
+  const [project, setProject] = useState([]);
+  const projectId =  searchParams.get('id');
+  
   useEffect(() => {
-    if (proj_id) {
-      // Fetch project data based on ID
-      const fetchData = () => {
-        const data = getproj_data_id(+proj_id)?? [{}];
-        setProject([data]);
+    if (projectId) {
+      const options = {
+        method: 'GET',
+        url: `http://localhost:3001/api/project/${projectId}`
       };
-      fetchData();
-    }
-  }, [proj_id]);
 
-  if (!project) {
+      axios.get(options.url).then((response) => {
+          console.log(response);
+          const responseData = response.data;
+          setProject(responseData);
+          console.log(response.data);
+        })
+        .catch((error) => {
+          console.error('Error:', error);
+        });
+      }
+  }, []);
+
+  if (!project.length) {
     return <div>Loading...</div>;
   }
 
@@ -93,7 +102,7 @@ export default function ProjectDetailPage() {
             Project Details
           </h1>
           <div className="grid gap-8">
-            {project.map((pjt, index) => (
+            {project?.map?.((pjt, index) => (
               <Card>
                 <CardHeader className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
@@ -124,11 +133,11 @@ export default function ProjectDetailPage() {
                     <ul className="space-y-2">
                       <li className="flex items-center gap-2">
                         <UsersIcon className="h-5 w-5" />
-                        <span>3 members</span>
+                        <span>{pjt?.collaboratorIds?.length + 1} member(s)</span>
                       </li>
                       <li className="flex items-center gap-2">
                         <CalendarIcon className="h-5 w-5" />
-                        <span>{pjt.time}</span>
+                        <span>{pjt.updatedAt}</span>
                       </li>
                       <li className="flex items-center gap-2">
                         <ClockIcon className="h-5 w-5" />
@@ -136,9 +145,9 @@ export default function ProjectDetailPage() {
                       </li>
                       <li className="flex items-center gap-2">
                         <TagIcon className="h-5 w-5" />
-                        {pjt?.tech?.map?.((techs, index) => (
+                        {pjt?.categoryIds?.map?.((techs, index) => (
                           <Badge key={index} variant="secondary">
-                            {techs}
+                            {techs?.categoryName}
                           </Badge>
                         ))}
                       </li>
