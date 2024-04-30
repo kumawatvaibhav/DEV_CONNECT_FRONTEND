@@ -1,3 +1,7 @@
+"use client"
+import { useState } from "react";
+// import { Routes, useNavigate  } from 'react-router-dom';
+import axios from "axios";
 import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
 import Link from "next/link"
@@ -7,6 +11,54 @@ import Image from "next/image";
 import icon from "../favicon.ico";
 
 export default function Component() {
+  
+  // const navigate = useNavigate();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleFormValueChange = (e) => {
+    if(e.target.id === 'email'){
+      setEmail(e.target.value);
+    } 
+    if(e.target.id === 'password'){
+      setPassword(e.target.value);
+    }
+  }
+  
+  const login = () => {
+
+    const options = {
+      method: 'POST',
+      url: 'http://localhost:3001/api/login',
+      headers: {'Content-Type': 'application/json'},
+      data: {email, password}
+    };
+
+    axios.request(options).then(function (response) {
+      alert("succesfully logged in")
+      const responseData = response.data;
+      const propName = 'token'; 
+      const propertyValue = responseData[propName];
+      sessionStorage.setItem('jwtToken', propertyValue);
+      console.log(response.data);
+    }).catch(function (error) {
+      alert("Something went wrong")
+      console.error(error);
+    });
+
+    // useEffect(() => {
+    //   axios.get(options.url).then((response) => {
+          
+    //       // Redirect to home page using navigate
+    //       navigate('/'); // Redirect to the home page
+    //     })
+    //     .catch((error) => {
+    //       console.error('Error:', error);
+    //     });
+    // }, []);
+
+  }
+
   return (
     <div className="flex h-screen items-center justify-center bg-gray-100 dark:bg-gray-900">
       <div className="w-full max-w-md space-y-8">
@@ -18,13 +70,13 @@ export default function Component() {
           <CardContent className="space-y-6 p-6">
             <div className="space-y-2">
               <Label htmlFor="email">Email</Label>
-              <Input id="email" placeholder="name@example.com" type="email" />
+              <Input onChange={handleFormValueChange} id="email" placeholder="name@example.com" type="email" />
             </div>
             <div className="space-y-2">
               <div className="flex items-center justify-between">
                 <Label htmlFor="password">Password</Label>
               </div>
-              <Input id="password" placeholder="••••••••" type="password" />
+              <Input onChange={handleFormValueChange} id="password" placeholder="••••••••" type="password" />
             </div>
             <div>
                 <div className="flex items-center justify-between">
@@ -36,7 +88,7 @@ export default function Component() {
                     </Link>
                 </div>
             </div>
-            <Button className="w-full" type="submit">
+            <Button onClick={login} className="w-full" type="submit">
               Login
             </Button>
           </CardContent>

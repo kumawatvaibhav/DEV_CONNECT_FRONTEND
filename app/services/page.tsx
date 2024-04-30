@@ -48,12 +48,43 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select";
 import * as Popover from "@radix-ui/react-popover";
-import { useState } from "react";
-
+import axios from "axios";
+import React, { useState, useEffect } from 'react';
 
 
 export default function services() {
-  const project_data = getproject_data();
+  //const project_data = getproject_data();
+
+    const options = {
+      method: 'GET',
+      url: 'http://localhost:3001/api/project',
+      params: {name: 'test'},
+      headers: {test: 'header'}
+    };
+
+    const [entities, setEntities] = useState([]);
+    var responseData = useState([]);
+
+    // useEffect(() => {
+    //   axios.get(options.url).then((response) => {
+    //       console.log(response);
+    //       const responseData = response.data;
+    //       setEntities(responseData.entities);
+    //       console.log(response.data);
+    //     })
+    //     .catch((error) => {
+    //       console.error('Error:', error);
+    //     });
+    // }, []);
+
+    axios.request(options).then(function (response) {
+      // console.log(response.data);
+      responseData = response.data;
+      console.log(responseData)
+      // setEntities(responseData.entities);
+    }).catch(function (error) {
+      console.error(error);
+    });
     return (
       <>
         <div className="bg-purple">
@@ -117,7 +148,7 @@ export default function services() {
               </Link>
             </div>
             <section className="max-w-6xl w-full mx-auto">
-              <div className="flex items-center justify-between mb-6">
+              {/* <div className="flex items-center justify-between mb-6">
                 <h2 className="text-2xl font-bold">Top Projects</h2>
                 <Link
                   className="text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50"
@@ -125,9 +156,9 @@ export default function services() {
                 >
                   View All
                 </Link>
-              </div>
+              </div> */}
               <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-                {project_data.map((project, index) => (
+                {responseData.map((project, index) => (
                   <Card
                     key={index}
                     className="bg-white dark:bg-gray-800 rounded-lg shadow-md relative"
@@ -184,7 +215,7 @@ export default function services() {
                       </CardContent>
                       <CardFooter>
                         <div className="flex items-center gap-2">
-                          {project.tech.map((techs, index) => (
+                          {entities?.tech?.map((techs, index) => (
                             <Badge key={index} variant="secondary">
                               {techs}
                             </Badge>

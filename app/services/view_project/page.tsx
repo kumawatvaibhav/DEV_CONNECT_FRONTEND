@@ -136,7 +136,7 @@ export default function ProjectDetailPage() {
                       </li>
                       <li className="flex items-center gap-2">
                         <TagIcon className="h-5 w-5" />
-                        {pjt.tech.map((techs, index) => (
+                        {pjt?.tech?.map?.((techs, index) => (
                           <Badge key={index} variant="secondary">
                             {techs}
                           </Badge>
