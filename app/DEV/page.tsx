@@ -50,12 +50,11 @@ export default function DEV(){
    const developer_data = getuser_data();
     return (
       <div className="bg-purple">
-        <Head>
-          <link rel="icon" href="/favicon.ico" />
-        </Head>
         <header className="h-20 flex items-center bg-white fixed top-0 left-0 w-full z-50">
           <div className="h-25 max-w-2.5rem ml-6">
-            <Image src={icon} alt="Icon" height={50} />
+            <Link href="/">
+              <Image src={icon} alt="Icon" height={50} />
+            </Link>
           </div>
           <h1 className="text font-san sarif font-bold  ml-4">DEV-CONNECT</h1>
           <nav className="flex flex-grow justify-end">
@@ -107,7 +106,7 @@ export default function DEV(){
                 </Button>
               </form>
               <div className="flex gap-2">
-              <DropdownMenu>
+                <DropdownMenu>
                   <DropdownMenuTrigger asChild>
                     <Button size="sm" variant="outline">
                       <FilterIcon className="h-4 w-4 mr-2" />
@@ -118,10 +117,18 @@ export default function DEV(){
                     <DropdownMenuLabel>Filter by</DropdownMenuLabel>
                     <DropdownMenuSeparator />
                     <DropdownMenuCheckboxItem>AI/ML</DropdownMenuCheckboxItem>
-                    <DropdownMenuCheckboxItem>Full Stack</DropdownMenuCheckboxItem>
-                    <DropdownMenuCheckboxItem>Frontend projects</DropdownMenuCheckboxItem>
-                    <DropdownMenuCheckboxItem>Backend projects</DropdownMenuCheckboxItem>
-                    <DropdownMenuCheckboxItem>Andriod projects</DropdownMenuCheckboxItem>
+                    <DropdownMenuCheckboxItem>
+                      Full Stack
+                    </DropdownMenuCheckboxItem>
+                    <DropdownMenuCheckboxItem>
+                      Frontend projects
+                    </DropdownMenuCheckboxItem>
+                    <DropdownMenuCheckboxItem>
+                      Backend projects
+                    </DropdownMenuCheckboxItem>
+                    <DropdownMenuCheckboxItem>
+                      Andriod projects
+                    </DropdownMenuCheckboxItem>
                   </DropdownMenuContent>
                 </DropdownMenu>
               </div>
@@ -152,8 +159,10 @@ export default function DEV(){
                         </Button>
                       </DropdownMenuTrigger>
                       <DropdownMenuContent align="end">
-                        <DropdownMenuItem>View Profile</DropdownMenuItem>
-                        <DropdownMenuItem>Send Request</DropdownMenuItem>
+                        <Link href="DEV/view_dev">
+                          <DropdownMenuItem>View Profile</DropdownMenuItem>
+                          <DropdownMenuItem>Send Request</DropdownMenuItem>
+                        </Link>
                       </DropdownMenuContent>
                     </DropdownMenu>
                   </CardHeader>
@@ -204,7 +213,6 @@ export default function DEV(){
             <div>
               <h3 className="font-semibold text-lg mb-3">Services</h3>
               <ul className="space-y-2">
-              
                 <li>SMM production</li>
                 <li>Collaboration</li>
               </ul>
@@ -214,7 +222,6 @@ export default function DEV(){
               <ul className="space-y-2">
                 <li>Our mission</li>
                 <li>Team Members</li>
-               
               </ul>
             </div>
             <div>

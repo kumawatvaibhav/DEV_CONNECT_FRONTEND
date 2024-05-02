@@ -21,12 +21,11 @@ export default function Component() {
   const project_data = getproject_data();
   return (
     <div className="bg-purple">
-      <Head>
-        <link rel="icon" href="/home" />
-      </Head>
       <header className="h-20 flex items-center bg-gray-100 fixed top-0 left-0 w-full z-50">
         <div className="h-25 max-w-2.5rem ml-6">
-          <Image src={icon} alt="Icon" height={50} />
+          <Link href="/">
+            <Image src={icon} alt="Icon" height={50} />
+          </Link>
         </div>
         <h1 className="text font-san sarif font-bold  ml-4">DEV-CONNECT</h1>
         <nav className="flex flex-grow justify-end">
@@ -90,9 +89,7 @@ export default function Component() {
                     </DialogHeader>
                     <div className="grid gap-4 py-4">
                       <div className="grid grid-cols-4 items-center gap-4">
-                        <Label className="text-right">
-                          Name
-                        </Label>
+                        <Label className="text-right">Name</Label>
                         <Input
                           className="col-span-3"
                           id="name"
@@ -100,9 +97,7 @@ export default function Component() {
                         />
                       </div>
                       <div className="grid grid-cols-4 items-center gap-4">
-                        <Label className="text-right">
-                          Username
-                        </Label>
+                        <Label className="text-right">Username</Label>
                         <Input
                           className="col-span-3"
                           id="username"
@@ -110,9 +105,7 @@ export default function Component() {
                         />
                       </div>
                       <div className="grid grid-cols-4 items-center gap-4">
-                        <Label className="text-right">
-                          Bio
-                        </Label>
+                        <Label className="text-right">Bio</Label>
                         <Textarea
                           className="col-span-3 min-h-[100px]"
                           id="bio"
@@ -120,9 +113,7 @@ export default function Component() {
                         />
                       </div>
                       <div className="grid grid-cols-4 items-center gap-4">
-                        <Label className="text-right">
-                          Location
-                        </Label>
+                        <Label className="text-right">Location</Label>
                         <Input
                           className="col-span-3"
                           id="location"
@@ -136,9 +127,7 @@ export default function Component() {
                   </DialogContent>
                 </Dialog>
               </div>
-              <p className="text-sm text-gray-500 dark:text-gray-400">
-                @Admin
-              </p>
+              <p className="text-sm text-gray-500 dark:text-gray-400">@Admin</p>
               <p className="text-sm text-gray-500 dark:text-gray-400">
                 Full-stack Developer
               </p>

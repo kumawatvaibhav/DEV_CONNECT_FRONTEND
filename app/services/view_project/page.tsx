@@ -10,7 +10,7 @@ import { Skeleton } from "@nextui-org/skeleton";
 import { Avatar, AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@radix-ui/react-dropdown-menu";
 import { Button } from "@/components/ui/button";
-import { CalendarIcon, ClockIcon, MoreHorizontalIcon, MountainIcon, TagIcon, UsersIcon } from "lucide-react";
+import { CalendarIcon, ClockIcon, FacebookIcon, MoreHorizontalIcon, MountainIcon, TagIcon, TwitterIcon, UsersIcon, YoutubeIcon } from "lucide-react";
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import Image from "next/image";
@@ -160,19 +160,37 @@ export default function ProjectDetailPage() {
           </div>
         </div>
       </main>
-      <footer className="flex flex-col items-center justify-between border-t border-gray-200 px-4 py-6 dark:border-gray-800 sm:flex-row sm:items-center sm:px-6">
-        <p className="text-sm text-gray-500 dark:text-gray-400">
-          © 2024 Acme Inc. All rights reserved.
-        </p>
-        <nav className="mt-4 flex items-center gap-4 sm:mt-0">
-          <Link className="text-sm hover:underline" href="#">
-            Terms of Service
-          </Link>
-          <Link className="text-sm hover:underline" href="#">
-            Privacy Policy
-          </Link>
-        </nav>
-      </footer>
+      <footer className="bg-black text-white p-10">
+            <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8">
+              <div>
+                <h2 className="text-4xl font-bold mb-4">DEV-CONNECT</h2>
+                <div className="flex space-x-4">
+                  <FacebookIcon className="text-white" />
+                  <TwitterIcon className="text-white" />
+                  <YoutubeIcon className="text-white" />
+                </div>
+              </div>
+              <div>
+                <h3 className="font-semibold text-lg mb-3">Services</h3>
+                <ul className="space-y-2">
+                  <li>Developer Search</li>
+                  <li>Collaboration</li>
+                </ul>
+              </div>
+              <div>
+                <h3 className="font-semibold text-lg mb-3">About</h3>
+                <ul className="space-y-2">
+                  <li>Our story</li>
+                  <li>Team Members</li>
+                </ul>
+              </div>
+              <div>
+                <p className="mb-4">22BT04059@gsfcuniversity.ac.in</p>
+                <p className="mb-4">Gsfc university</p>
+                <p className="mb-4">+91 7016563416</p>
+              </div>
+            </div>
+          </footer>
     </div>
   );
 }

@@ -61,7 +61,9 @@ export default function Component() {
       </Head>
       <header className="h-20 flex items-center bg-white fixed top-0 left-0 w-full z-50">
         <div className="h-25 max-w-2.5rem ml-6">
-          <Image src={icon} alt="Icon" height={50} />
+          <Link href="/">
+            <Image src={icon} alt="Icon" height={50} />
+          </Link>
         </div>
         <h1 className="text font-san sarif font-bold  ml-4">DEV-CONNECT</h1>
         <nav className="flex flex-grow justify-end">
