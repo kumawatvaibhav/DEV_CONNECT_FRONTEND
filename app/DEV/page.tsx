@@ -1,3 +1,4 @@
+"use client"
 const imageStyle = {
     borderRadius: "15%",
     border: "1px solid #fff",
@@ -47,8 +48,15 @@ import Link from "next/link";
 
 
 export default function DEV(){
-   const developer_data = getuser_data();
-    return (
+   const [developerData, setDeveloperData] = useState([]);
+   useEffect(() => {
+    if(!developerData.length) {
+      getuser_data().then(userData => {
+        setDeveloperData(userData);
+      })
+    }
+   },[developerData]) 
+   return (
       <div className="bg-purple">
         <Head>
           <link rel="icon" href="/favicon.ico" />
@@ -71,6 +79,8 @@ export default function DEV(){
               </Link>
             </div>
           </nav>
+          {
+            sessionStorage.getItem('jwtToken') ? 
           <div className="flex flex-row gap-2 mr-7">
             <Link href="Profile">
               <Button
@@ -92,7 +102,8 @@ export default function DEV(){
                 <span className="sr-only">user menu</span>
               </Button>
             </Link>
-          </div>
+          </div> : <div></div>
+          }
         </header>
         <main className="container mx-auto py-8 px-4 md:px-6 mt-20 bg-gray-100">
           <div className="max-w-6xl w-full mx-auto flex flex-col gap-6">
@@ -136,15 +147,15 @@ export default function DEV(){
               </Link>
             </div>
             <div className="grid gap-6 md:grid-cols-3 lg:grid-cols-3">
-              {developer_data.map((developer, index) => (
+              {developerData?.map?.((developer, index) => (
                 <Card key={index}>
                   <CardHeader className="flex flex-row items-center gap-4">
                     <UserIcon className="w-8 h-8" />
                     <div className="grid gap-1">
-                      <CardTitle>{developer.name}</CardTitle>
-                      <CardDescription>{developer.role}</CardDescription>
+                      <CardTitle>{developer.firstName + " " + developer.lastName}</CardTitle>
+                      <CardDescription>{developer.occupation}</CardDescription>
                     </div>
-                    <DropdownMenu>
+                    {/* <DropdownMenu>
                       <DropdownMenuTrigger asChild>
                         <Button className="ml-auto" size="icon" variant="ghost">
                           <MoreHorizontalIcon className="w-4 h-4" />
@@ -155,23 +166,23 @@ export default function DEV(){
                         <DropdownMenuItem>View Profile</DropdownMenuItem>
                         <DropdownMenuItem>Send Request</DropdownMenuItem>
                       </DropdownMenuContent>
-                    </DropdownMenu>
+                    </DropdownMenu> */}
                   </CardHeader>
                   <CardContent className="grid gap-2">
                     <section className="h-20">
                       <div className="text-gray-500 dark:text-gray-400 mb-4">
-                        {developer.experience}
+                        {developer.description}
                       </div>
                     </section>
                     <div className="flex items-center gap-8 text-sm">
                       <div className="flex items-center gap-1">
                         <LocateIcon className="w-4 h-4" />
                         <span className="text-gray-500 dark:text-gray-400">
-                          {developer.location}
+                          {developer.location || "India"}
                         </span>
                       </div>
                       <div className="flex items-center gap-1">
-                        {developer.skills.map((skill, index) => (
+                        {developer?.skills?.map?.((skill, index) => (
                           <Badge key={index} variant="secondary">
                             {skill}
                           </Badge>
@@ -179,7 +190,7 @@ export default function DEV(){
                       </div>
                     </div>
                     <div className="flex items-center gap-2 mt-2">
-                      {developer.projects.map((project, index) => (
+                      {developer?.projects?.map?.((project, index) => (
                         <Badge key={index} variant="default">
                           {project}
                         </Badge>

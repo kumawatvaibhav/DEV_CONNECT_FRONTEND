@@ -42,6 +42,8 @@ export default function Component() {
       sessionStorage.setItem('jwtToken', propertyValue);
       const decodedToken = atob(propertyValue?.split?.('.')?.[1]);
       sessionStorage.setItem("userId", JSON.parse(decodedToken)?.user?._id);
+      sessionStorage.setItem("emailId", JSON.parse(decodedToken)?.user?.email);
+
       console.log(response.data);
       window.location.href = '/';
     }).catch(function (error) {

@@ -78,7 +78,7 @@ export default function Component() {
           </div>
         </nav>
         <div id="login">
-          {isLoggedIn ? (
+          {sessionStorage.getItem('jwtToken') ? (
             <Link href="Profile">
               <Button
                 className="rounded-full ml-auto"

@@ -1,3 +1,5 @@
+import axios from "axios";
+
 type type_data = {
   name : string;
   role : string;
@@ -59,7 +61,21 @@ const User_data: type_data[] = [
 ]
 
 //Get data : 
-export const getuser_data = () => User_data;
+export const getuser_data = async () => {
+  const options = {
+    method: 'GET',
+    url: 'http://localhost:3001/api/users',
+    headers: {'Content-Type': 'application/json'}
+  };
+
+  try{
+    const response = await axios.request(options);
+    return response.data;
+  } catch(error) {
+    console.error("Error getting users", error);
+    return [];
+  }
+}
 
 //Add data : 
 export const adduser_data = (post: type_data) => {
