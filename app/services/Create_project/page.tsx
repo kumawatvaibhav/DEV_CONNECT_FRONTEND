@@ -1,3 +1,4 @@
+"use client"
 import Link from "next/link"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
@@ -8,8 +9,51 @@ import { CardHeader, CardContent, Card } from "@/components/ui/card"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { SelectValue, SelectTrigger, SelectItem, SelectContent, Select } from "@/components/ui/select"
+import { useEffect, useState } from "react"
+import axios from "axios"
 
 export default function Component() {
+
+  const [emailId,setEmailId] = useState(sessionStorage.getItem('emailId'));
+  const [projectName, setProjectName] = useState("");
+  const [projectDescription, setProjectDescription] = useState("");
+  
+  useEffect(() => {
+    if(!emailId)
+      setEmailId(sessionStorage.getItem('emailId'))
+  },[emailId])
+  
+  const setValue = (e) => {
+    if(e.target.id === "project-name") {
+      setProjectName(e.target.value)
+    } else if(e.target.id === "project-description") {
+      setProjectDescription(e.target.value)
+    }
+  }
+
+
+
+  const createProject = () => {
+    const options = {
+      method: 'POST',
+      url: 'http://localhost:3001/api/project',
+      headers: {'Content-Type': 'application/json',
+      'authorization': sessionStorage.getItem('jwtToken')
+      },
+      data: {
+        title: projectName,
+        description: projectDescription
+      }
+    };
+
+    axios.request(options).then(function (response) {
+      alert("succesfully added project")
+      console.log(response.data);
+    }).catch(function (error) {
+      alert("Something went wrong")
+      console.error(error);
+    });
+  }
   return (
     <>
       <div className="flex min-h-[100dvh] flex-col bg-gray-100 dark:bg-gray-950">
@@ -321,18 +365,18 @@ export default function Component() {
             <div className="grid grid-cols-2 gap-4">
               <div>
                 <Label htmlFor="project-name">Project Name</Label>
-                <Input id="project-name" required type="text" />
+                <Input id="project-name" required type="text" onChange={setValue}/>
               </div>
               <div>
-                <Label htmlFor="project-owner">Project Owner</Label>
-                <Input id="project-owner" required type="text" />
+                <Label htmlFor="project-owner" >Project Owner</Label>
+                <Input id="project-owner" readOnly={true} value={emailId || ""}/>
               </div>
             </div>
             <div>
               <Label htmlFor="project-description">Project Description</Label>
-              <Textarea id="project-description" required />
+              <Textarea id="project-description" required onChange={setValue}/>
             </div>
-            <div className="grid grid-cols-2 gap-4">
+            {/* <div className="grid grid-cols-2 gap-4">
               <div>
                 <Label htmlFor="project-type">Project Type</Label>
                 <Select id="project-type" required>
@@ -348,10 +392,10 @@ export default function Component() {
                   </SelectContent>
                 </Select>
               </div>
-            </div>
+            </div> */}
             <div className="flex justify-end gap-2">
               <Button variant="outline">Cancel</Button>
-              <Button type="submit">Create Project</Button>
+              <Button type="submit" onClick={createProject}>Create Project</Button>
             </div>
           </form>
         </div>

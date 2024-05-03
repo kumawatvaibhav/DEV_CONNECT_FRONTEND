@@ -11,14 +11,62 @@ import Image from "next/image";
 import { Avatar, AvatarImage, AvatarFallback } from "@radix-ui/react-avatar";
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem, Label } from "@radix-ui/react-dropdown-menu";
 import { PencilIcon, TwitterIcon, GithubIcon, LinkedinIcon, MoreHorizontalIcon, LocateIcon, UserIcon, CalendarIcon } from "lucide-react";
-import { getproject_data } from "@/lib/data_project";
+import { getUserData, getproject_data } from "@/lib/data_project";
 import { Skeleton } from "@nextui-org/skeleton";
 import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from "@/components/ui/dialog";
 import { Textarea } from "@/components/ui/textarea";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 
 export default function Component() {
-  const project_data = getproject_data();
+  const [userData, setUserData] = useState([]);
+  const [projectData,setProjectData] = useState([]);
+  const updateUser = (e) => {
+    if(e.target.id == 'first-name') {
+      userData.firstName = e.target.value;
+    } else  if(e.target.id == 'last-name') {
+      userData.lastName = e.target.value;
+    } else  if(e.target.id == 'description') {
+      userData.description = e.target.value;
+    }
+  }
+  const updateUserData = () => {
+    const options = {
+      method: 'PATCH',
+      url: `http://localhost:3001/api/users/${sessionStorage.getItem('userId')}`,
+      headers: {'Content-Type': 'application/json',
+      'authorization': sessionStorage.getItem('jwtToken')
+      },
+      data: {
+        firstName: userData.firstName,
+        lastName: userData.lastName,
+        description: userData.description
+      }
+    };
+
+    axios.request(options).then(function (response) {
+      alert("succesfully updated user")
+      window.location.href = '/Profile'
+      console.log(response.data);
+    }).catch(function (error) {
+      alert("Something went wrong")
+      console.error(error);
+    });
+  }
+  useEffect(() => {
+    if(!userData.length) {
+      getUserData(sessionStorage.getItem('userId')).then(data => {
+        setUserData(data || []);
+      })
+    }
+    if(!projectData.length) {
+      getproject_data().then((data) => {
+        setProjectData(data || []);
+      })
+    }
+
+  },[])
   return (
     <div className="bg-purple">
       <Head>
@@ -68,7 +116,7 @@ export default function Component() {
             </Avatar>
             <div className="space-y-1 text-center">
               <div className="flex items-center justify-center gap-2">
-                <h2 className="text-2xl font-bold">ADMIN DEV</h2>
+                <h2 className="text-2xl font-bold">{userData?.firstName + " " + userData.lastName}</h2>
                 <Dialog>
                   <DialogTrigger asChild>
                     <Button
@@ -91,15 +139,25 @@ export default function Component() {
                     <div className="grid gap-4 py-4">
                       <div className="grid grid-cols-4 items-center gap-4">
                         <Label className="text-right">
-                          Name
+                          First Name
                         </Label>
                         <Input
                           className="col-span-3"
-                          id="name"
-                          value="John Doe"
+                          id="first-name"
+                          onChange={updateUser}
+                          defaultValue={userData?.firstName}
+                        />
+                        <Label className="text-right">
+                          Last Name
+                        </Label>
+                        <Input
+                          className="col-span-3"
+                          id="last-name"
+                          onChange={updateUser}
+                          defaultValue={userData?.lastName}
                         />
                       </div>
-                      <div className="grid grid-cols-4 items-center gap-4">
+                      {/* <div className="grid grid-cols-4 items-center gap-4">
                         <Label className="text-right">
                           Username
                         </Label>
@@ -108,15 +166,16 @@ export default function Component() {
                           id="username"
                           value="@johndoe"
                         />
-                      </div>
+                      </div> */}
                       <div className="grid grid-cols-4 items-center gap-4">
                         <Label className="text-right">
-                          Bio
+                          Description
                         </Label>
                         <Textarea
                           className="col-span-3 min-h-[100px]"
-                          id="bio"
-                          value=""
+                          id="description"
+                          onChange={updateUser}
+                          defaultValue={userData?.description}
                         />
                       </div>
                       <div className="grid grid-cols-4 items-center gap-4">
@@ -126,24 +185,25 @@ export default function Component() {
                         <Input
                           className="col-span-3"
                           id="location"
-                          value="San Francisco, CA"
+                          readOnly={true}
+                          value="India"
                         />
                       </div>
                     </div>
                     <DialogFooter>
-                      <Button type="submit">Save changes</Button>
+                      <Button type="submit" onClick={updateUserData}>Save changes</Button>
                     </DialogFooter>
                   </DialogContent>
                 </Dialog>
               </div>
               <p className="text-sm text-gray-500 dark:text-gray-400">
-                @Admin
+                {userData?.email}
               </p>
               <p className="text-sm text-gray-500 dark:text-gray-400">
-                Full-stack Developer
+                {userData?.occupation}
               </p>
               <p className="text-sm text-gray-500 dark:text-gray-400">
-                Vadodara
+                India
               </p>
             </div>
             <div className="flex items-center space-x-4">
@@ -171,16 +231,13 @@ export default function Component() {
             <div className="space-y-4">
               <h3 className="text-xl font-bold">About</h3>
               <p className="text-gray-500 dark:text-gray-400">
-                I am a passionate full-stack developer with experience in
-                building web applications using modern technologies. I enjoy
-                collaborating with teams to create innovative solutions that
-                solve real-world problems.
+                {userData?.description}
               </p>
             </div>
             <div className="space-y-4">
               <h3 className="text-xl font-bold">Projects</h3>
               <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-                {project_data.map((project, index) => (
+                {projectData?.map?.((project, index) => (
                   <Card
                     key={index}
                     className="bg-white dark:bg-gray-800 rounded-lg shadow-md relative"
@@ -196,7 +253,7 @@ export default function Component() {
                         </Avatar>
                         <div className="grid gap-1">
                           <CardTitle>{project.title}</CardTitle>
-                          <CardDescription>{project.d_name}</CardDescription>
+                          <CardDescription>{project.occupation}</CardDescription>
                         </div>
                         <div className="flex flex-row gap-6">
                           <DropdownMenu>
@@ -212,7 +269,7 @@ export default function Component() {
                               <Link
                                 href={{
                                   pathname: "services/view_project",
-                                  query: { id: project.id },
+                                  query: { id: project._id },
                                 }}
                               >
                                 <DropdownMenuItem>
@@ -232,14 +289,14 @@ export default function Component() {
                         </p>
                         <div className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
                           <CalendarIcon className="w-4 h-4" />
-                          <span>{project.time}</span>
+                          <span>{project.updatedAt}</span>
                         </div>
                       </CardContent>
                       <CardFooter>
                         <div className="flex items-center gap-2">
-                          {project.tech.map((techs, index) => (
+                          {project?.categoryIds?.map?.((techs, index) => (
                             <Badge key={index} variant="secondary">
-                              {techs}
+                              {techs?.categoryName}
                             </Badge>
                           ))}
                         </div>

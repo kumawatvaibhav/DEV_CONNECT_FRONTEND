@@ -16,6 +16,7 @@ import { Badge } from "@/components/ui/badge";
 import Image from "next/image";
 import icon from "../../favicon.ico";
 import axios from "axios";
+import { cp } from "fs";
 
 export default function ProjectDetailPage() {
   //const searchParams = new URLSearchParams("http://localhost:3000/services/view_project?id=1")
@@ -23,7 +24,22 @@ export default function ProjectDetailPage() {
   const searchParams = useSearchParams();
   const [project, setProject] = useState([]);
   const projectId =  searchParams.get('id');
-  
+  const [collabMembers, setCollabMembers] = useState("")
+  const getMembers = (projects = []) => {
+    let collabMems = "", isOwnerAdded = false;
+    for(let j = 0 ; j < projects.length ; j++) {
+      const collab = projects[j].collaboratorIds;
+      for(let i = 0; i < collab.length ; i++) {
+        collabMems += collab?.[i]?.email + ",";
+      }
+      if(!isOwnerAdded) {
+        collabMems+= projects[j]?.ownerId?.email;
+        isOwnerAdded = true;
+      }
+    }
+    setCollabMembers(collabMems)
+    // return collabMems;
+  }
   useEffect(() => {
     if (projectId) {
       const options = {
@@ -35,6 +51,7 @@ export default function ProjectDetailPage() {
           console.log(response);
           const responseData = response.data;
           setProject(responseData);
+          getMembers(responseData);
           console.log(response.data);
         })
         .catch((error) => {
@@ -73,7 +90,32 @@ export default function ProjectDetailPage() {
             </Link>
           </div>
         </nav>
-        <div className="flex flex-row gap-2 mr-7">
+        {
+            sessionStorage.getItem('jwtToken') ? 
+          <div className="flex flex-row gap-2 mr-7">
+            <Link href="Profile">
+              <Button
+                className="rounded-full ml-auto"
+                size="icon"
+                variant="ghost"
+              >
+                <img
+                  alt="Avatar"
+                  className="rounded-full border"
+                  height="32"
+                  src="/placeholder-user.jpg"
+                  style={{
+                    aspectRatio: "32/32",
+                    objectFit: "cover",
+                  }}
+                  width="32"
+                />
+                <span className="sr-only">user menu</span>
+              </Button>
+            </Link>
+          </div> : <div></div>
+          }
+        {/* <div className="flex flex-row gap-2 mr-7">
           <Link href="/Profile">
             <Button
               className="rounded-full ml-auto"
@@ -94,7 +136,7 @@ export default function ProjectDetailPage() {
               <span className="sr-only">user menu</span>
             </Button>
           </Link>
-        </div>
+        </div> */}
       </header>
       <main className="flex-1 px-4 py-8 md:px-6 md:py-12">
         <div className="mx-auto max-w-4xl">
@@ -133,7 +175,8 @@ export default function ProjectDetailPage() {
                     <ul className="space-y-2">
                       <li className="flex items-center gap-2">
                         <UsersIcon className="h-5 w-5" />
-                        <span>{pjt?.collaboratorIds?.length + 1} member(s)</span>
+                        {/* <span >{collabMembers}</span> */}
+                        <span title={collabMembers}>{pjt?.collaboratorIds?.length + 1} member(s)</span>
                       </li>
                       <li className="flex items-center gap-2">
                         <CalendarIcon className="h-5 w-5" />

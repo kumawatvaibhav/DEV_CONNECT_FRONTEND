@@ -107,7 +107,9 @@ export default function services() {
                 </Link>
               </div>
             </nav>
-            <div className="flex flex-row gap-2 mr-7">
+            {
+              sessionStorage.getItem('jwtToken') ?
+              <div className="flex flex-row gap-2 mr-7">
               <Link href="Profile">
                 <Button
                   className="rounded-full ml-auto"
@@ -128,7 +130,9 @@ export default function services() {
                   <span className="sr-only">user menu</span>
                 </Button>
               </Link>
-            </div>
+            </div> : <div></div> 
+            }
+            
           </header>
           <main className="container mx-auto py-8 px-4 md:px-6 mt-20 bg-gray-100">
             <div className="max-w-6xl w-full mx-auto flex items-center gap-4 mb-10">
@@ -141,9 +145,12 @@ export default function services() {
                   Submit
                 </Button>
               </form>
-              <Link href="services/Create_project">
-                <Button>Add New</Button>
-              </Link>
+              { sessionStorage.getItem('jwtToken') ? 
+                <Link href="services/Create_project">
+                  <Button>Add New</Button>
+                </Link>
+                : <div></div>
+              }
             </div>
             <section className="max-w-6xl w-full mx-auto">
               {/* <div className="flex items-center justify-between mb-6">
